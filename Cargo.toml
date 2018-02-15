@@ -1,0 +1,6 @@
+[package]
+name = "api_ssn"
+version = "0.1.0"
+authors = ["romain <romain.lannes@gmail.com>"]
+
+[dependencies]
