@@ -115,7 +115,7 @@ impl DicoHeader{
 				this_dico_header.send = i as i8;
 				}
 				
-			else if elem == "slen"{
+			else if elem == &"slen"{
 				this_dico_header.slen = i as i8;
 				}
 			}
