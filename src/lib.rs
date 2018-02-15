@@ -1,7 +1,6 @@
 extern crate fnv;
 extern crate petgraph;
 
-
 use std::time::Instant;
 mod common;
 
