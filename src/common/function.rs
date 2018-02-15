@@ -27,6 +27,26 @@ pub fn get_index(
     }
 }
 
+/// if node does not exist
+/// create it uptade hashmap
+/// Create a node add it to the hash_table
+/// index
+pub fn get_index_no_weigth_on_edges(
+    my_graph: &mut petgraph::Graph<NodeAttr, (), petgraph::Undirected>,
+    my_map: &mut FnvHashMap<String, petgraph::graph::NodeIndex>,
+    key: String,
+) -> petgraph::prelude::NodeIndex {
+    match my_map.get(&key) {
+        Some(&number) => number, // the node exist we return the corresponding index
+        None => {
+            let node_index = my_graph.add_node(NodeAttr {
+                name_real: key.to_string(),
+            });
+            my_map.insert(key, node_index);
+            node_index
+        }
+    }
+}
 
 pub fn add_edges(my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttr, petgraph::Undirected>,
 	node_index1: petgraph::graph::NodeIndex,
