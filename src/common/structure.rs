@@ -30,7 +30,7 @@ impl Default for EdgesAttr {
 
 
 impl EdgesAttr{
-	fn self_is_best(&self, other: &EdgesAttr) -> bool{
+	pub fn self_is_best(&self, other: &EdgesAttr) -> bool{
 		
 		if self.eval < other.eval {return true}
 		else if self.eval > other.eval {return false}
@@ -44,7 +44,7 @@ impl EdgesAttr{
 		return true
 		}
 		
-	fn pass_threshold(&self, threshold_struct: &EdgesAttr) -> bool{ // i giove it a try I think it will be way faster than assign each times
+	pub fn pass_threshold(&self, threshold_struct: &EdgesAttr) -> bool{ // i giove it a try I think it will be way faster than assign each times
 		if self.cov < threshold_struct.cov {return false}
 		else if self.pid < threshold_struct.pid {return false}
 		else if self.eval > threshold_struct.eval {return false} // for eval the lower the better

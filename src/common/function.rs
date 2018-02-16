@@ -32,25 +32,25 @@ pub fn add_edges(my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttr, petgraph::U
 	node_index1: petgraph::graph::NodeIndex,
 	node_index2: petgraph::graph::NodeIndex,
 	edge_atr: EdgesAttr){
-		
-		let test: Option<petgraph::graph::EdgeIndex> = my_graph.find_edge(node_index1, node_index2);
-		
-		if test.is_none(){
-			//println!("edge do not exist 1");
-			my_graph.add_edge(node_index1, node_index2, edg_atr); //edges do not exist we add it
-			}
-		
-		else{
-				let mut bolean = false;
-				{
-					let existing_edges_attributs: &EdgesAttr = &my_graph[test.unwrap()];
-					if edge_atr.self_is_best(existing_edges_attributs.clone()){
-					 bolean = true;
-					 }
+	
+	let test: Option<petgraph::graph::EdgeIndex> = my_graph.find_edge(node_index1, node_index2);
+	
+	if test.is_none(){
+		//println!("edge do not exist 1");
+		my_graph.add_edge(node_index1, node_index2, edge_atr); //edges do not exist we add it
+		}
+	
+	else{
+		let mut bolean = false;
+		{
+			let existing_edges_attributs: &EdgesAttr = &my_graph[test.unwrap()];
+			if edge_atr.self_is_best(&existing_edges_attributs){
+				bolean = true;
 				}
-				if bolean{my_graph.update_edge(node_index1, node_index2, edg_atr);}
 			}
-
+		if bolean{my_graph.update_edge(node_index1, node_index2, edge_atr);}
+		}
+	}
 
 pub fn get_std_edges_attributs(my_vec: &[&str], header_map: &DicoHeader) -> EdgesAttr{
 	let  (qcov, tcov) = compute_qcov_tcov(my_vec, header_map);
