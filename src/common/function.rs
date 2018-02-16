@@ -10,7 +10,7 @@ use std::iter::FromIterator;
 /// create it uptade hashmap
 /// Create a node add it to the hash_table
 /// index
-fn get_index(
+pub fn get_index(
     my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttr, petgraph::Undirected>,
     my_map: &mut FnvHashMap<String, petgraph::graph::NodeIndex>,
     key: String,

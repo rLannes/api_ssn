@@ -3,6 +3,7 @@ extern crate petgraph;
 
 use std::time::Instant;
 mod common;
+mod read_write;
 
 
 
