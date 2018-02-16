@@ -3,7 +3,7 @@ use std::path::Path;
 /// read a blast file
 /// TODO filter value option
 ///return hashmap, graph <edgesAtrr (min(cov), pid, eval), Nodeattr(name_real)>
-pub fn read_from_blast(header: &structure::DicoHeader, file: &Path){
+pub fn read_from_blast(header: &structure::DicoHeader, file: &Path, threshold_values:Options<EdgeAtrr>){
 
    let in_file = File::open(path_in_file).unwrap_or_else(|why| {
 	panic!(
@@ -22,10 +22,17 @@ pub fn read_from_blast(header: &structure::DicoHeader, file: &Path){
 								.split_whitespace()
 								.collect();
 		
+		let this_edges_properties = get_std_edges_attributs(&v_line, header);
+		// before going further we check if edges go
+		match threshold_values{
+			some(threshold) => if !this_edges_properties.pass_threshold(threshold){continue}
+			}
+		
 		
 		}
 	}
 
+/*
 pub fn read_from_blast_only_edges(header: &structure::DicoHeader, file: &Path){
 
    let in_file = File::open(path_in_file).unwrap_or_else(|why| {
@@ -53,3 +60,4 @@ pub fn read_from_blast_only_edges(header: &structure::DicoHeader, file: &Path){
 pub fn read_from_blast_big_edges_info(){
 	
 	}
+*/

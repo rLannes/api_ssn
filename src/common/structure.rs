@@ -28,6 +28,30 @@ impl Default for EdgesAttr {
     }
 }
 
+
+impl EdgesAttr{
+	fn self_is_best(&self, other: &EdgesAttr) -> bool{
+		
+		if self.eval < other.eval {return true}
+		else if self.eval > other.eval {return false}
+		else{if self.pid > other.pid {return true}
+			else if self.pid < other.pid {return false}
+			else{
+				if self.cov > other.cov {return true}
+				else if self.cov < other.cov {return false}
+				}
+			}
+		return true
+		}
+		
+	fn pass_threshold(&self, threshold_struct: &EdgesAttr) -> bool{ // i giove it a try I think it will be way faster than assign each times
+		if self.cov < threshold_struct.cov {return false}
+		else if self.pid < threshold_struct.pid {return false}
+		else if self.eval > threshold_struct.eval {return false} // for eval the lower the better
+		else {return true}
+		}
+	}
+
 /*
 pub struct EdgesAttrWithPos {
     pub eval: f64,
@@ -58,34 +82,34 @@ impl Default for EdgesAttrWithPos {
 //Structure field are realy more fast to acces than dico ones
 #[derive(Copy, Clone)]
 pub struct DicoHeader{
-	qid: i8,
-	sid: i8,
-	eval: i8,
-	bitscore: i8,
-	pid: i8,
-	qstart: i8,
-	qend: i8,
-	qlen: i8,
-	sstart: i8,
-	send: i8,
-	slen: i8,
+	pub qid: usize,
+	pub sid: usize,
+	pub eval: usize,
+	pub bitscore: usize,
+	pub pid: usize,
+	pub qstart: usize,
+	pub qend: usize,
+	pub qlen: usize,
+	pub sstart: usize,
+	pub send: usize,
+	pub slen: usize,
 	}
 
 
 impl Default for DicoHeader{
 	fn default() -> Self{
 		DicoHeader{
-			qid: -1,
-			sid: -1,
-			eval: -1,
-			bitscore: -1,
-			pid: -1,
-			qstart: -1,
-			qend: -1,
-			qlen: -1,
-			sstart: -1,
-			send: -1,
-			slen: -1,
+			qid: 100,
+			sid: 100,
+			eval: 100,
+			bitscore: 100,
+			pid: 100,
+			qstart: 100,
+			qend: 100,
+			qlen: 100,
+			sstart: 100,
+			send: 100,
+			slen: 100,
 			}
 		}
 	}
@@ -101,47 +125,47 @@ impl DicoHeader{
 		for (i, elem) in vec_of_my_string.iter().enumerate(){ // here i is usize
 			
 			if elem == &"qseqid"{
-				this_dico_header.qid = i as i8; 
+				this_dico_header.qid = i as usize; 
 				}
 				
 			else if elem == &"sseqid"{
-				this_dico_header.sid = i as i8;
+				this_dico_header.sid = i as usize;
 				}
 				
 			else if elem == &"pident"{
-				this_dico_header.pid = i as i8;
+				this_dico_header.pid = i as usize;
 				}
 			
 			else if elem == &"bitscore"{
-				this_dico_header.bitscore = i as i8;
+				this_dico_header.bitscore = i as usize;
 				}
 			
 			else if elem == &"evalue"{
-				this_dico_header.eval = i as i8;
+				this_dico_header.eval = i as usize;
 				}
 			
 			else if elem == &"qstart"{
-				this_dico_header.qstart = i as i8;
+				this_dico_header.qstart = i as usize;
 				}
 			
 			else if elem == &"qend"{
-				this_dico_header.qend = i as i8;
+				this_dico_header.qend = i as usize;
 				}
 			
 			else if elem == &"qlen"{
-				this_dico_header.qlen = i as i8;
+				this_dico_header.qlen = i as usize;
 				}
 				
 			else if elem == &"sstart"{
-				this_dico_header.sstart = i as i8;
+				this_dico_header.sstart = i as usize;
 				}
 				
 			else if elem == &"send"{
-				this_dico_header.send = i as i8;
+				this_dico_header.send = i as usize;
 				}
 				
 			else if elem == &"slen"{
-				this_dico_header.slen = i as i8;
+				this_dico_header.slen = i as usize;
 				}
 			}
 		return this_dico_header

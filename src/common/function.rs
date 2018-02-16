@@ -1,3 +1,10 @@
+extern crate fnv;
+extern crate petgraph;
+
+use common::structure::{NodeAttr, EdgesAttr, DicoHeader};
+
+use fnv::FnvHashMap;
+use std::iter::FromIterator;
 
 /// if node does not exist
 /// create it uptade hashmap
@@ -19,6 +26,16 @@ fn get_index(
         }
     }
 }
+
+
+pub fn get_std_edges_attributs(my_vec: &[&str], header_map: &DicoHeader) -> EdgesAttr{
+	let  (qcov, tcov) = compute_qcov_tcov(my_vec, header_map);
+	let cov = min_f32(qcov, tcov);
+	let pident =  my_vec[header_map.pid].parse::<f32>().unwrap();
+	let eval = my_vec[header_map.eval].parse::<f64>().unwrap();
+	let edges_properties = EdgesAttr{cov:cov, pid: pident, eval: eval};
+	return edges_properties
+	}
 
 
 /// return the minimum from two f32 
@@ -57,7 +74,7 @@ fn compute_cov(start: &str, end: &str, len: &str) -> f32 {
 fn compute_qcov_tcov(vec: &[&str],
 header_map: &DicoHeader) -> (f32, f32) {
 	
-        let qcov = compute_cov(vec[header_map.qstart)], vec[header_map.qend], vec[header_map.qlen]);
+        let qcov = compute_cov(vec[header_map.qstart], vec[header_map.qend], vec[header_map.qlen]);
        // println!("{}", qcov);
         let tcov = compute_cov(vec[header_map.sstart], vec[header_map.send], vec[header_map.slen]);
         //	println!("{}", tcov);
