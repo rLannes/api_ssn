@@ -28,6 +28,32 @@ impl Default for EdgesAttr {
     }
 }
 
+/*
+pub struct EdgesAttrWithPos {
+    pub eval: f64,
+    pub pid: f32,
+    pub cov: f32, // minimum coverage
+    qstart: i8,
+	qend: i8,
+	qlen: i8,
+	sstart: i8,
+	send: i8,
+	slen: i8,
+	nodeq:,
+	nodes:
+    
+}
+
+impl Default for EdgesAttrWithPos {
+    fn default() -> Self {
+        EdgesAttr {
+            eval: 0.0,
+            pid: 100.0,
+            cov: 100.0,
+        }
+    }
+}
+*/
 
 //Structure field are realy more fast to acces than dico ones
 #[derive(Copy, Clone)]
@@ -60,7 +86,6 @@ impl Default for DicoHeader{
 			sstart: -1,
 			send: -1,
 			slen: -1,
-			// mincov tcov qcov
 			}
 		}
 	}
