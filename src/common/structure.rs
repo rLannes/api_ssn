@@ -1,4 +1,6 @@
-#[derive( Clone)]
+extern crate petgraph;
+
+#[derive(Clone)]
 pub struct NodeAttr {
     pub name_real: String,
 }
@@ -28,7 +30,6 @@ impl Default for EdgesAttr {
     }
 }
 
-
 impl EdgesAttr{
 	pub fn self_is_best(&self, other: &EdgesAttr) -> bool{
 		
@@ -52,33 +53,59 @@ impl EdgesAttr{
 		}
 	}
 
-/*
-pub struct EdgesAttrWithPos {
+
+pub struct EdgesAttrFull {
     pub eval: f64,
     pub pid: f32,
+    pub bitscore: f32,
     pub cov: f32, // minimum coverage
-    qstart: i8,
-	qend: i8,
-	qlen: i8,
-	sstart: i8,
-	send: i8,
-	slen: i8,
-	nodeq:,
-	nodes:
-    
+    pub qstart: i32,
+	pub qend: i32,
+	pub qlen: i32,
+	pub sstart: i32,
+	pub send: i32,
+	pub slen: i32,
+	pub qindex: petgraph::graph::NodeIndex,
+	pub sindex: petgraph::graph::NodeIndex,    
 }
 
-impl Default for EdgesAttrWithPos {
+impl EdgesAttrFull{
+	
+	pub fn self_is_best(&self, other: &EdgesAttrFull) -> bool {
+		
+		if self.eval < other.eval {return true}
+		else if self.eval > other.eval {return false}
+		else{if self.pid > other.pid {return true}
+			else if self.pid < other.pid {return false}
+			else{
+				if self.cov > other.cov {return true}
+				else if self.cov < other.cov {return false}
+				}
+			}
+		return true
+		}
+		
+	}
+
+/**
+impl Default for EdgesAttrFull {
     fn default() -> Self {
         EdgesAttr {
             eval: 0.0,
             pid: 100.0,
             cov: 100.0,
+            qstart: i32,
+	pub qend: i32,
+	pub qlen: i32,
+	pub sstart: i32,
+	pub send: i32,
+	pub slen: i32,
+	pub qindex: petgraph::graph::NodeIndex,
+	pub sindex: petgraph::graph::NodeIndex,    
         }
     }
 }
 */
-
 //Structure field are realy more fast to acces than dico ones
 #[derive(Copy, Clone)]
 pub struct DicoHeader{
