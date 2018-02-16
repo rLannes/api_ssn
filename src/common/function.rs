@@ -6,6 +6,7 @@ use common::structure::{NodeAttr, EdgesAttr, DicoHeader, EdgesAttrFull};
 use fnv::FnvHashMap;
 use std::iter::FromIterator;
 
+
 /// if node does not exist
 /// create it uptade hashmap
 /// Create a node add it to the hash_table
@@ -208,28 +209,3 @@ pub fn add_edges_full(my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttrFull, pe
 		}
 	}
 	
-/*
-pub struct EdgesAttrFull {
-    pub eval: f64,
-    pub pid: f32,
-    pub bitscore: f32,
-    pub cov: f32, // minimum coverage
-    pub qstart: i32,
-	pub qend: i32,
-	pub qlen: i32,
-	pub sstart: i32,
-	pub send: i32,
-	pub slen: i32,
-	pub qindex: petgraph::graph::NodeIndex,
-	pub sindex: petgraph::graph::NodeIndex,    
-}
-*/
-
-
-
-
-
-
-
-
-
