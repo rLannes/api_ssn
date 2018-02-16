@@ -33,6 +33,7 @@ fn min_f32(a: f32, b: f32) -> f32 {
         a
     }
 }
+
 /// Round to 2 decimal points
 ///
 /// ```rust
@@ -51,7 +52,8 @@ fn compute_cov(start: &str, end: &str, len: &str) -> f32 {
    // println!("{} {} {}", start_f, end_f, length_f);
     my_round(((end_f - start_f + 1.0) / length_f) * 100.0)
 }
-//
+
+///
 fn compute_qcov_tcov(vec: &[&str],
 header_map: &DicoHeader) -> (f32, f32) {
 	
