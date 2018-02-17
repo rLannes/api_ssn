@@ -68,6 +68,12 @@ pub struct EdgesAttrFull {
 	pub qindex: petgraph::graph::NodeIndex,
 	pub sindex: petgraph::graph::NodeIndex,    
 }
+/*
+trait Compare_edges<T>{
+		//type prop;
+		fn self_is_best(&self, other: &T) -> bool;
+	}
+*/
 
 impl EdgesAttrFull{
 	
@@ -87,6 +93,29 @@ impl EdgesAttrFull{
 		
 	}
 
+
+/*
+impl Compare_edges<T> for EdgesAttrFull{
+	
+	//type prop = EdgesAttrFull;
+	
+	fn self_is_best<T>(&self, other: &T) -> bool {
+		
+		if self.eval < other.eval {return true}
+		else if self.eval > other.eval {return false}
+		else{if self.pid > other.pid {return true}
+			else if self.pid < other.pid {return false}
+			else{
+				if self.cov > other.cov {return true}
+				else if self.cov < other.cov {return false}
+				}
+			}
+		return true
+		}
+		
+	}
+
+*/
 /**
 impl Default for EdgesAttrFull {
     fn default() -> Self {
