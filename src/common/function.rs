@@ -189,7 +189,7 @@ pub fn new_graph_from_nodes_index<T, U>(my_graph: &mut petgraph::Graph<T, U, pet
 			for node_index in community{
 				
 				for edge in my_graph.edges(*node_index){
-					&my_graph[edge.id()];
+					let this_edges = &my_graph[edge.id()];
 					
 					
 					}
