@@ -1,9 +1,10 @@
 extern crate fnv;
 extern crate petgraph;
-
+use petgraph::visit::EdgeRef;
 use common::structure::{NodeAttr, EdgesAttr, DicoHeader, EdgesAttrFull};
 
 use fnv::FnvHashMap;
+use fnv::FnvHashSet;
 use std::iter::FromIterator;
 
 
@@ -167,4 +168,42 @@ pub fn add_edges_full(my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttrFull, pe
 		if bolean{my_graph.update_edge(node_index1, node_index2, edge_atr);}
 		}
 	}
+	
+
+///This function takes a graph and a set of nodes_indices
+/// it return a new graph -> TODO sum, mean for weitgh.
+pub fn new_graph_from_nodes_index<T, U>(my_graph: &mut petgraph::Graph<T, U, petgraph::Undirected>,
+	communities: Vec<Vec<petgraph::prelude::NodeIndex>>) ->
+		petgraph::Graph<T, U, petgraph::Undirected>{
+		
+		let mut my_new_graph = petgraph::Graph::<T, U, petgraph::Undirected>::new_undirected();
+		let community_number = communities.len();
+		let mut community_set_vec: Vec<FnvHashSet<petgraph::prelude::NodeIndex>> = Vec::with_capacity(community_number);
+		
+		for (community_id, community) in communities.iter().enumerate(){
+			
+			let this_com_node_index_set: FnvHashSet<petgraph::prelude::NodeIndex> = community.iter().cloned().collect();
+			let this_edges_set_out:FnvHashSet<petgraph::prelude::NodeIndex> = FnvHashSet::with_capacity_and_hasher(community.len(),Default::default()); // TODO bench vs try to box:: it
+			let this_edges_set_in:FnvHashSet<petgraph::prelude::NodeIndex> = FnvHashSet::with_capacity_and_hasher(community.len(), Default::default());
+			
+			for node_index in community{
+				
+				for edge in my_graph.edges(*node_index){
+					&my_graph[edge.id()];
+					
+					
+					}
+				
+				
+				}
+			
+			
+			}
+	
+	return my_new_graph
+	}
+
+	
+	
+
 	
