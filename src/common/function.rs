@@ -1,6 +1,6 @@
 extern crate fnv;
 extern crate petgraph;
-use petgraph::visit::EdgeRef;
+//use petgraph::visit::EdgeRef;
 use common::structure::{NodeAttr, EdgesAttr, DicoHeader, EdgesAttrFull};
 
 use fnv::FnvHashMap;
@@ -168,10 +168,13 @@ pub fn add_edges_full(my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttrFull, pe
 		if bolean{my_graph.update_edge(node_index1, node_index2, edge_atr);}
 		}
 	}
-	
 
+use petgraph::visit::EdgeRef;
+
+//edge_endpoints
 ///This function takes a graph and a set of nodes_indices
 /// it return a new graph -> TODO sum, mean for weitgh.
+
 pub fn new_graph_from_nodes_index<T, U>(my_graph: &mut petgraph::Graph<T, U, petgraph::Undirected>,
 	communities: Vec<Vec<petgraph::prelude::NodeIndex>>) ->
 		petgraph::Graph<T, U, petgraph::Undirected>{
@@ -182,22 +185,43 @@ pub fn new_graph_from_nodes_index<T, U>(my_graph: &mut petgraph::Graph<T, U, pet
 		
 		for (community_id, community) in communities.iter().enumerate(){
 			
-			let this_com_node_index_set: FnvHashSet<petgraph::prelude::NodeIndex> = community.iter().cloned().collect();
-			let this_edges_set_out:FnvHashSet<petgraph::prelude::NodeIndex> = FnvHashSet::with_capacity_and_hasher(community.len(),Default::default()); // TODO bench vs try to box:: it
-			let this_edges_set_in:FnvHashSet<petgraph::prelude::NodeIndex> = FnvHashSet::with_capacity_and_hasher(community.len(), Default::default());
+			let this_com_node_index_set: FnvHashSet<petgraph::prelude::NodeIndex> =
+			 community.iter().cloned().collect();
+			 
+			let this_edges_set_out:FnvHashSet<petgraph::prelude::NodeIndex> =
+			 FnvHashSet::with_capacity_and_hasher(community.len(),Default::default());
+			  // TODO bench vs try to box:: it
+			let this_edges_set_in:FnvHashSet<petgraph::prelude::NodeIndex> =
+			 FnvHashSet::with_capacity_and_hasher(community.len(), Default::default());
 			
 			for node_index in community{
-				
+				//TODO put this part in another f() to improve clarity;
 				for edge in my_graph.edges(*node_index){
-					let this_edges = &my_graph[edge.id()];
+					let this_edges = my_graph.edge_endpoints(edge.id()).unwrap();
 					
+					if this_edges.0 != node_index {
+						
+						if this_com_node_index_set.contains(this_edges.0){
+							this_edges_set_in.insert(edge.id());
+							}
+							
+						else{
+							this_edges_set_out.insert(edge.id());
+							}
+						}
 					
+					else {
+						
+							if this_com_node_index_set.contains(this_edges.1){
+							this_edges_set_in.insert(edge.id());
+							}
+							
+						else{
+							this_edges_set_out.insert(edge.id());
+							}
+						}
 					}
-				
-				
 				}
-			
-			
 			}
 	
 	return my_new_graph

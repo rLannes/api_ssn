@@ -227,3 +227,60 @@ impl DicoHeader{
 		return this_dico_header
 		}
 	}
+
+
+pub struct position{
+	x:f32,
+	y:f32,
+	}
+	
+impl position{
+	
+	pub fn get_position(&self) -> (f32, f32){
+		return (self.x, self.y)
+		}
+		
+	pub fn distance(&self, b_point: &position) -> f32{
+		return ((b_point.x - self.x).powf(2.0) +  (b_point.y - self.y).powf(2.0)).sqrt();
+		}
+		
+	pub fn bearing_angle(&self, b_point: &position) -> f32{
+		let tan_teta = (b_point.x - self.x) / (b_point.y - self.y);
+		tan_teta.atan()
+		}
+	
+	}
+/// vector(force: f32, angle: f32)
+/// angle are in radiant
+pub struct MyVector{
+	pub force: f32,
+	pub angle: f32,// in radians
+	}
+	
+	
+impl MyVector{
+	
+	
+	pub fn enclosing_angle(&self, vec_: &MyVector) -> f32 {
+		let dot_product = self.force * self.angle.sin()  + vec_.force * vec_.angle.sin();
+		let product_magnitude = self.force * vec_.force;
+		dot_product / product_magnitude
+		}
+		
+	pub fn somme(&self, vec_: &MyVector) -> MyVector{
+		let cos_angle_ = self.enclosing_angle(vec_);
+		let new_force = self.force.powf(2.0)  + vec_.force.powf(2.0) - 2.0 * self.force * vec_.force * cos_angle_;
+		let angle = cos_angle_.acos();
+		MyVector{ force: new_force,
+				   angle: angle }
+	
+		}
+		
+	pub fn scalar(&self, vec_: &MyVector) -> f32{
+		let cos_angle_ = self.enclosing_angle(vec_);
+		self.force * vec_.force * cos_angle_
+		
+		}
+	}
+	
+	
