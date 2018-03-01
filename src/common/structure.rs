@@ -261,6 +261,13 @@ impl position{
 		tan_teta.atan()
 		}
 	
+	
+	pub fn add_vector(&mut self, vector: &MyVector){
+		let _composante = vector.get_composantes();
+		self.x += _composante.0;
+		self.y += _composante.1;
+		}
+	
 	}
 
 	
@@ -289,13 +296,17 @@ impl MyVector{
 		let angle = cos_angle_.acos();
 		MyVector{ force: new_force,
 				   angle: angle }
-	
 		}
 		
 	pub fn scalar(&self, vec_: &MyVector) -> f32{
 		let cos_angle_ = self.enclosing_angle(vec_);
-		self.force * vec_.force * cos_angle_
+		self.force * vec_.force * cos_angle_	
+		}
 		
+	pub fn get_composantes(&self) -> (f32, f32){
+		let x = self.angle.cos() * self.force;
+		let y = self.angle.sin() * self.force;
+		return (x, y);
 		}
 	}
 	

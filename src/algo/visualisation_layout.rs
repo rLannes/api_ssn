@@ -37,7 +37,7 @@ fn CalcAttractionForce(pos_node1: &position, pos_node2: &position,
 	}
 	
 fn layout_force_directed<'a, T: Get_weigth, U>(my_graph: &petgraph::Graph<U, T, petgraph::Undirected>,
-							attract_cst: f32, rep_cst: f32, iter_num: u32, end_threshold: u32){
+							attract_cst: f32, rep_cst: f32, iter_num: u32, end_threshold: f32){
 								
 	let my_vec = ConnectedComponent::cc_dfs(&my_graph);
 	let mut singleton: Vec<Vec<petgraph::prelude::NodeIndex>> = vec![];
@@ -62,7 +62,7 @@ fn layout_force_directed<'a, T: Get_weigth, U>(my_graph: &petgraph::Graph<U, T, 
 	}
 
 fn force_directed<'a, T: Get_weigth, U>(my_graph: &petgraph::Graph<U, T, petgraph::Undirected>, node_vec: &Vec<petgraph::graph::NodeIndex>,
-							attract_cst: f32, rep_cst: f32, iter_num: u32, end_threshold: u32)
+							attract_cst: f32, rep_cst: f32, iter_num: u32, end_threshold: f32)
 							 -> (rectangle, FnvHashMap<petgraph::graph::NodeIndex, position>){
 								 
 	let this_rectangle = rectangle{position_up_left: position{x:0.0, y:0.0}, position_down_rigth: position{x:0.0, y:0.0}};
@@ -82,27 +82,31 @@ fn force_directed<'a, T: Get_weigth, U>(my_graph: &petgraph::Graph<U, T, petgrap
 		my_map_and_force.insert(*node, RefCell::new((new_position, f_vec)));
 	}	
 	
-	let mut total_displacement:u32 = 100 * node_vec.len() as u32;
+	let mut total_displacement:f32 = 100.0 * node_vec.len() as f32;
 	let mut counter_iter: u32 = 0;
 	
 	while (total_displacement > end_threshold && counter_iter < iter_num){
 		counter_iter += 1;
-		total_displacement = 0;
+		total_displacement = 0.0;
 		
 		for node in node_vec{
 			
 			let mut force = MyVector{force: 0.0, angle: 0.0};
-			let my_value = match my_map_and_force.entry(*node){
-				  Vacant(entry) => panic!("key_not found"),
-				 Occupied(entry) => entry.into_mut(),};
-			let &mut(ref mut  source_position, ref mut source_force) = my_value;
+			
+			//let my_value = match my_map_and_force.entry(*node){
+			//	  Vacant(entry) => panic!("key_not found"),
+			//	 Occupied(entry) => entry.into_mut(),};
+			let my_value = my_map_and_force.get(node).unwrap();
+			let mut borrowed_tuple = my_value.borrow_mut();
+			let (ref mut  source_position, ref mut source_force) = *borrowed_tuple;
+			//let &mut(ref mut  source_position, ref mut source_force) = my_value.borrow();
 			//let &mut(ref mut  source_position, ref mut source_force) = my_map_and_force.get_mut(&node).unwrap();
 			//let &mut(ref mut  source_position, ref mut source_force)
 			force = *source_force ;
 			
 			for node_tar in node_vec{
-				
-				let (ref node_position, ref node_force) = *my_map_and_force.get(&node_tar).unwrap();
+				let (ref node_position, ref node_force) = *my_map_and_force.get(node_tar).unwrap().borrow();
+				//let (ref node_position, ref node_force) = *my_map_and_force.get(&node_tar).unwrap();
 				let repulsion =  CalcRepulsionForce(&source_position, &node_position, rep_cst);
 				force =  force.somme(&repulsion);
 			}
@@ -121,8 +125,9 @@ fn force_directed<'a, T: Get_weigth, U>(my_graph: &petgraph::Graph<U, T, petgrap
 				else{
 					my_node = edges_from.target();
 					} 
-				
-				let (ref target_position, ref target_force) = *my_map_and_force.get(&my_node).unwrap();
+					
+				let (ref target_position, ref target_force) = *my_map_and_force.get(&my_node).unwrap().borrow();
+				//let (ref target_position, ref target_force) = *my_map_and_force.get(&my_node).unwrap();
 				
 				let attr = CalcAttractionForce(&source_position, &target_position,
 				 edges_from.weight().get_weigth(), attract_cst);
@@ -134,6 +139,14 @@ fn force_directed<'a, T: Get_weigth, U>(my_graph: &petgraph::Graph<U, T, petgrap
 				*y =  force;*/
 			//}
 		}
+		// change position of nodes usingt the vector computed value
+		for this_ref_cell in my_map_and_force.values(){
+			let (ref mut source_position, ref mut source_force) = *this_ref_cell.borrow_mut();
+			source_position.add_vector(source_force);
+			total_displacement += source_force.force;
+			
+			}
+		
 	}
 		
 		// todo recopy;
