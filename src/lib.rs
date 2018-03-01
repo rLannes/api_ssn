@@ -1,10 +1,14 @@
 extern crate fnv;
 extern crate petgraph;
+extern crate rand;
 
 use std::time::Instant;
-mod common;
-mod read_write;
-mod algo;
+
+pub mod common;
+pub mod read_write;
+pub mod algo;
+
+//use common::
 
 
 #[cfg(test)]

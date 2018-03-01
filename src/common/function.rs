@@ -168,7 +168,7 @@ pub fn add_edges_full(my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttrFull, pe
 		if bolean{my_graph.update_edge(node_index1, node_index2, edge_atr);}
 		}
 	}
-
+/*
 use petgraph::visit::EdgeRef;
 
 //edge_endpoints
@@ -199,9 +199,9 @@ pub fn new_graph_from_nodes_index<T, U>(my_graph: &mut petgraph::Graph<T, U, pet
 				for edge in my_graph.edges(*node_index){
 					let this_edges = my_graph.edge_endpoints(edge.id()).unwrap();
 					
-					if this_edges.0 != node_index {
+					if this_edges.0 != *node_index {
 						
-						if this_com_node_index_set.contains(this_edges.0){
+						if this_com_node_index_set.contains(&this_edges.0){
 							this_edges_set_in.insert(edge.id());
 							}
 							
@@ -212,7 +212,7 @@ pub fn new_graph_from_nodes_index<T, U>(my_graph: &mut petgraph::Graph<T, U, pet
 					
 					else {
 						
-							if this_com_node_index_set.contains(this_edges.1){
+							if this_com_node_index_set.contains(&this_edges.1){
 							this_edges_set_in.insert(edge.id());
 							}
 							
@@ -226,7 +226,7 @@ pub fn new_graph_from_nodes_index<T, U>(my_graph: &mut petgraph::Graph<T, U, pet
 	
 	return my_new_graph
 	}
-
+*/
 	
 	
 

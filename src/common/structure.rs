@@ -13,12 +13,20 @@ impl Default for NodeAttr {
     }
 }
 
+pub trait Get_weigth{
+	fn get_weigth(&self) -> f32;
+	}
+	
 #[derive(Copy, Clone)]
 pub struct EdgesAttr {
     pub eval: f64,
     pub pid: f32,
     pub cov: f32, // minimum coverage
 }
+
+impl Get_weigth for EdgesAttr{
+	fn get_weigth(&self) -> f32{return self.pid}
+	}
 
 impl Default for EdgesAttr {
     fn default() -> Self {
@@ -68,6 +76,10 @@ pub struct EdgesAttrFull {
 	pub qindex: petgraph::graph::NodeIndex,
 	pub sindex: petgraph::graph::NodeIndex,    
 }
+impl Get_weigth for EdgesAttrFull{
+	fn get_weigth(&self) -> f32{return self.pid}
+	}
+
 /*
 trait Compare_edges<T>{
 		//type prop;
@@ -230,8 +242,8 @@ impl DicoHeader{
 
 
 pub struct position{
-	x:f32,
-	y:f32,
+	pub x:f32,
+	pub y:f32,
 	}
 	
 impl position{
@@ -250,14 +262,18 @@ impl position{
 		}
 	
 	}
+
+	
+	
 /// vector(force: f32, angle: f32)
 /// angle are in radiant
+#[derive(Copy, Clone)]
 pub struct MyVector{
 	pub force: f32,
 	pub angle: f32,// in radians
 	}
 	
-	
+
 impl MyVector{
 	
 	
@@ -283,4 +299,11 @@ impl MyVector{
 		}
 	}
 	
-	
+
+pub struct rectangle{
+	pub position_up_left: position,
+	pub position_down_rigth: position
+	}
+
+
+

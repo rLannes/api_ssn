@@ -4,5 +4,6 @@ version = "0.1.0"
 authors = ["romain <romain.lannes@gmail.com>"]
 
 [dependencies]
-petgraph="*"
-fnv="*"
+petgraph = "*"
+fnv = "*"
+rand = "0.3.0"
