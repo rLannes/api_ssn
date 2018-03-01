@@ -240,23 +240,23 @@ impl DicoHeader{
 		}
 	}
 
-
-pub struct position{
+#[derive(Copy, Clone)]
+pub struct Position{
 	pub x:f32,
 	pub y:f32,
 	}
 	
-impl position{
+impl Position{
 	
 	pub fn get_position(&self) -> (f32, f32){
 		return (self.x, self.y)
 		}
 		
-	pub fn distance(&self, b_point: &position) -> f32{
+	pub fn distance(&self, b_point: &Position) -> f32{
 		return ((b_point.x - self.x).powf(2.0) +  (b_point.y - self.y).powf(2.0)).sqrt();
 		}
 		
-	pub fn bearing_angle(&self, b_point: &position) -> f32{
+	pub fn bearing_angle(&self, b_point: &Position) -> f32{
 		let tan_teta = (b_point.x - self.x) / (b_point.y - self.y);
 		tan_teta.atan()
 		}
@@ -310,11 +310,42 @@ impl MyVector{
 		}
 	}
 	
-
-pub struct rectangle{
-	pub position_up_left: position,
-	pub position_down_rigth: position
+#[derive(Copy, Clone)]
+pub struct Rectangle{
+	pub position_up_left: Position,
+	pub position_down_rigth: Position
 	}
+	
+	
+impl Rectangle{
+	
+	/// update the Rectangle to include the given Position
+	/// TODO
+	pub fn update_if_bigger(&mut self, pos_: &Position){
+		
+		if pos_.x < self.position_up_left.x {
+			self.position_up_left.x = pos_.x;
+			}
+		if pos_.x > self.position_down_rigth.x {
+			self.position_down_rigth.x = pos_.x;
+			}
+			
+		if pos_.y > self.position_up_left.y {
+			self.position_up_left.y = pos_.y;
+			}
+			
+		if pos_.y < self.position_down_rigth.y {
+			self.position_down_rigth.y = pos_.y;
+			}
+		}
+	
+	pub fn area(&self) -> f32{
+		(self.position_up_left.x  - self.position_down_rigth.x) * (self.position_down_rigth.y - self.position_up_left.y)
+		}
+	}
+
+	
+
 
 
 

@@ -4,7 +4,7 @@ extern crate fnv;
 use fnv::FnvHashMap;
 use petgraph::Graph;
 
-use common::structure::position;
+use common::structure::Position;
 use std::io::BufReader;
 use std::io::BufWriter;
 use std::io::prelude::*;
@@ -17,7 +17,7 @@ use std::fmt::{self, Formatter, Display};
 ///specification of svg format from w3.org
 
 pub fn write_graph_svg<'a, T, U>(my_graph: &petgraph::Graph<U, T, petgraph::Undirected>,
-	position_map: &FnvHashMap<petgraph::graph::NodeIndex, position>, file_: &Path) {
+	position_map: &FnvHashMap<petgraph::graph::NodeIndex, Position>, file_: &Path) {
 		  let out_file = File::create(file_).unwrap_or_else(|why| {
 	panic!(
 		"couldn't open  {}",
