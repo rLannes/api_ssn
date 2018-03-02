@@ -7,6 +7,13 @@ pub struct MyVector{
 	pub angle: f32,// in radians
 	}
 
+fn cartesian_to_polar(x:f32, y: f32) -> {
+
+	}
+
+fn polar_to_cartesian(force: f32, angle: f32) -> {
+
+	}
 
 impl MyVector{
 
@@ -50,6 +57,7 @@ impl MyVector{
 		return (self.get_x, self.get_y);
 		}
 
+	pub fn catersian_to_polar(x: f32,y: f32) ->
 
 	}
 
