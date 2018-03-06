@@ -18,11 +18,23 @@ pub trait Get_weigth{
 	}
 	
 #[derive(Copy, Clone)]
+pub struct LigthEdges{
+	pub weight:f32,
+}
+
+impl Get_weigth for LigthEdges{
+	fn get_weigth(&self) -> f32{return self.weight}
+	}
+
+
+#[derive(Copy, Clone)]
 pub struct EdgesAttr {
     pub eval: f64,
     pub pid: f32,
     pub cov: f32, // minimum coverage
 }
+
+
 
 impl Get_weigth for EdgesAttr{
 	fn get_weigth(&self) -> f32{return self.pid}
@@ -239,113 +251,7 @@ impl DicoHeader{
 		return this_dico_header
 		}
 	}
-
-#[derive(Copy, Clone)]
-pub struct Position{
-	pub x:f32,
-	pub y:f32,
-	}
 	
-impl Position{
-	
-	pub fn get_position(&self) -> (f32, f32){
-		return (self.x, self.y)
-		}
-		
-	pub fn distance(&self, b_point: &Position) -> f32{
-		return ((b_point.x - self.x).powf(2.0) +  (b_point.y - self.y).powf(2.0)).sqrt();
-		}
-		
-	pub fn bearing_angle(&self, b_point: &Position) -> f32{
-		let tan_teta = (b_point.x - self.x) / (b_point.y - self.y);
-		tan_teta.atan()
-		}
-	
-	
-	pub fn add_vector(&mut self, vector: &MyVector){
-		let _composante = vector.get_composantes();
-		self.x += _composante.0;
-		self.y += _composante.1;
-		}
-	
-	}
-
-	
-	
-/// vector(force: f32, angle: f32)
-/// angle are in radiant
-#[derive(Copy, Clone)]
-pub struct MyVector{
-	pub force: f32,
-	pub angle: f32,// in radians
-	}
-	
-
-impl MyVector{
-	
-	
-	pub fn enclosing_angle(&self, vec_: &MyVector) -> f32 {
-		let dot_product = self.force * self.angle.sin()  + vec_.force * vec_.angle.sin();
-		let product_magnitude = self.force * vec_.force;
-		dot_product / product_magnitude
-		}
-		
-	pub fn somme(&self, vec_: &MyVector) -> MyVector{
-		let cos_angle_ = self.enclosing_angle(vec_);
-		let new_force = self.force.powf(2.0)  + vec_.force.powf(2.0) - 2.0 * self.force * vec_.force * cos_angle_;
-		let angle = cos_angle_.acos();
-		MyVector{ force: new_force,
-				   angle: angle }
-		}
-		
-	pub fn scalar(&self, vec_: &MyVector) -> f32{
-		let cos_angle_ = self.enclosing_angle(vec_);
-		self.force * vec_.force * cos_angle_	
-		}
-		
-	pub fn get_composantes(&self) -> (f32, f32){
-		let x = self.angle.cos() * self.force;
-		let y = self.angle.sin() * self.force;
-		return (x, y);
-		}
-	}
-	
-#[derive(Copy, Clone)]
-pub struct Rectangle{
-	pub position_up_left: Position,
-	pub position_down_rigth: Position
-	}
-	
-	
-impl Rectangle{
-	
-	/// update the Rectangle to include the given Position
-	/// TODO
-	pub fn update_if_bigger(&mut self, pos_: &Position){
-		
-		if pos_.x < self.position_up_left.x {
-			self.position_up_left.x = pos_.x;
-			}
-		if pos_.x > self.position_down_rigth.x {
-			self.position_down_rigth.x = pos_.x;
-			}
-			
-		if pos_.y > self.position_up_left.y {
-			self.position_up_left.y = pos_.y;
-			}
-			
-		if pos_.y < self.position_down_rigth.y {
-			self.position_down_rigth.y = pos_.y;
-			}
-		}
-	
-	pub fn area(&self) -> f32{
-		(self.position_up_left.x  - self.position_down_rigth.x) * (self.position_down_rigth.y - self.position_up_left.y)
-		}
-	}
-
-	
-
 
 
 

@@ -2,7 +2,7 @@ extern crate fnv;
 extern crate petgraph;
 //use petgraph::visit::EdgeRef;
 use common::structure::{NodeAttr, EdgesAttr, DicoHeader, EdgesAttrFull};
-
+use common::geometry::{Position, Rectangle, MyVector};
 use fnv::FnvHashMap;
 use fnv::FnvHashSet;
 use std::iter::FromIterator;
@@ -69,11 +69,19 @@ pub fn get_std_edges_attributs(my_vec: &[&str], header_map: &DicoHeader) -> Edge
 ///```rust
 /// assert_eq!(min_f32(12.0215,0.0001), 0.0001);
 ///```
-fn min_f32(a: f32, b: f32) -> f32 {
+pub fn min_f32(a: f32, b: f32) -> f32 {
     if a > b {
         b
     } else {
         a
+    }
+}
+
+pub fn max_f32(a: f32, b: f32) -> f32 {
+    if a > b {
+        a
+    } else {
+        b
     }
 }
 
@@ -164,10 +172,42 @@ pub fn add_edges_full(my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttrFull, pe
 			if edge_atr.self_is_best(existing_edges_attributs){
 				bolean = true;
 				}
-			}
+		}
 		if bolean{my_graph.update_edge(node_index1, node_index2, edge_atr);}
 		}
 	}
+
+
+pub fn packingRectangle(vec_rec: &mut Vec<Rectangle>, marges: f32) -> f32 {
+	
+	let mut vec_size: Vec<f32> = vec![];
+	//add the marge
+	for rec in vec_rec.iter_mut() {
+		rec.add_marges(marges);
+		vec_size.push(rec.area());
+		}
+	vec_size.sort_by(|a, b| a.partial_cmp(b).unwrap());
+		
+	//  get sum(surface) of all
+	 let sum_area: f32 = vec_rec.iter().fold(0.0f32, |sum, val| sum + val.area());
+	 //let sum_perimeter: f32 =  vec_rec.iter().fold(0.0f32, |sum, val| sum + val.perimeter());
+	 //let init_area = sum_perimeter  +
+	let init_area = sum_area * 1.25;
+	let _size =  init_area.sqrt().round() as f32;
+	let big_rec = Rectangle{position_up_left: Position{x:0.0 , y:0.0 },
+							position_down_rigth: Position{x:_size, y:_size}};
+	
+	let mut vec_new_position: Vec<Position>= vec![];
+	for size in vec_rec.iter(){
+		
+		}
+	
+	
+	return init_area;
+	}
+
+
+
 /*
 use petgraph::visit::EdgeRef;
 
