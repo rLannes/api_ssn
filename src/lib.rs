@@ -1,6 +1,7 @@
 extern crate fnv;
 extern crate petgraph;
 extern crate rand;
+extern crate easy_cartesians;
 
 use std::time::Instant;
 

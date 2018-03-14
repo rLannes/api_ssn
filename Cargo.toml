@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["romain <romain.lannes@gmail.com>"]
 
 [dependencies]
+easy_cartesians = { path = "/home/romain/easy_cartesians" }
 petgraph = "*"
 fnv = "*"
 rand = "0.3.0"
-easy_cartesians = { path="/home/romain/easy_cartesians"}

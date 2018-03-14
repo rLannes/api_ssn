@@ -2,7 +2,7 @@ extern crate fnv;
 extern crate petgraph;
 //use petgraph::visit::EdgeRef;
 use common::structure::{NodeAttr, EdgesAttr, DicoHeader, EdgesAttrFull};
-use common::geometry::{Position, Rectangle, MyVector};
+use easy_cartesians::common::d2_coordinate::{Point2d, Polar, Rectangle};
 use fnv::FnvHashMap;
 use fnv::FnvHashSet;
 use std::iter::FromIterator;
@@ -177,7 +177,7 @@ pub fn add_edges_full(my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttrFull, pe
 		}
 	}
 
-
+/*
 pub fn packingRectangle(vec_rec: &mut Vec<Rectangle>, marges: f32) -> f32 {
 	
 	let mut vec_size: Vec<f32> = vec![];
@@ -194,10 +194,10 @@ pub fn packingRectangle(vec_rec: &mut Vec<Rectangle>, marges: f32) -> f32 {
 	 //let init_area = sum_perimeter  +
 	let init_area = sum_area * 1.25;
 	let _size =  init_area.sqrt().round() as f32;
-	let big_rec = Rectangle{position_up_left: Position{x:0.0 , y:0.0 },
-							position_down_rigth: Position{x:_size, y:_size}};
+	let big_rec = Rectangle{up_left: Point2d{x:0.0 , y:0.0 },
+							down_rigth: Point2d{x:_size, y:_size}};
 	
-	let mut vec_new_position: Vec<Position>= vec![];
+	let mut vec_new_position: Vec<Point2d>= vec![];
 	for size in vec_rec.iter(){
 		
 		}
@@ -206,7 +206,7 @@ pub fn packingRectangle(vec_rec: &mut Vec<Rectangle>, marges: f32) -> f32 {
 	return init_area;
 	}
 
-
+*/
 
 /*
 use petgraph::visit::EdgeRef;
