@@ -1,8 +1,19 @@
 extern crate petgraph;
 
+use std::fmt;
+
+// TODO impl display traits
+
+
 #[derive(Clone)]
 pub struct NodeAttr {
     pub name_real: String,
+}
+
+impl fmt::Display for NodeAttr{
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
+		write!(f, "{}", self.name_real)
+	}
 }
 
 impl Default for NodeAttr {
@@ -26,6 +37,11 @@ impl Get_weigth for LigthEdges{
 	fn get_weigth(&self) -> f32{return self.weight}
 	}
 
+impl fmt::Display for LigthEdges{
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
+		write!(f, "{}", self.weight)
+	}
+}
 
 #[derive(Copy, Clone)]
 pub struct EdgesAttr {
@@ -48,6 +64,12 @@ impl Default for EdgesAttr {
             cov: 100.0,
         }
     }
+}
+
+impl fmt::Display for EdgesAttr{
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
+		write!(f, "{:e}\t{}\t{}", self.eval, self.pid, self.cov)
+	}
 }
 
 impl EdgesAttr{
@@ -88,6 +110,16 @@ pub struct EdgesAttrFull {
 	pub qindex: petgraph::graph::NodeIndex,
 	pub sindex: petgraph::graph::NodeIndex,    
 }
+
+
+impl fmt::Display for EdgesAttrFull{
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
+		write!(f, "{:e}\t{}\t{}\t{}\t{}\t{}\t{}\t{}",
+			   self.eval,self.pid, self.qstart, self.qend, self.qlen,
+				self.sstart, self.send, self.slen)
+	}
+}
+
 impl Get_weigth for EdgesAttrFull{
 	fn get_weigth(&self) -> f32{return self.pid}
 	}
