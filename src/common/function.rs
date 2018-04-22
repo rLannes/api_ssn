@@ -1,8 +1,9 @@
 extern crate fnv;
 extern crate petgraph;
+extern crate small_cartesians_lib;
 //use petgraph::visit::EdgeRef;
 use common::structure::{NodeAttr, EdgesAttr, DicoHeader, EdgesAttrFull};
-use easy_cartesians::common::d2_coordinate::{Point2d, Polar, Rectangle};
+use small_cartesians_lib::module::d2;
 use fnv::FnvHashMap;
 use fnv::FnvHashSet;
 use std::iter::FromIterator;
