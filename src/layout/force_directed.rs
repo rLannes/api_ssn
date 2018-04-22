@@ -51,19 +51,20 @@ struct force_directed_parameter{
     exponent: f32,
 }
 
-/// compute it for one Connected Component
+// compute it for one Connected Component
+/*
 pub fn force_directed_layout<'a, T: Get_weigth  , U>(my_graph: &petgraph::Graph<U, T, petgraph::Undirected>,
                                                      f_param: &force_directed_parameter,
                                                      iter_num: f32, end_threshold:f32, node_cc: Vec<petgraph::prelude::NodeIndex>)
-                                -> (D2::Rectangle, FnvHashMap<petgraph::graph::NodeIndex, D2::Vect2D>){
+                                -> (d2::Rectangle, FnvHashMap<petgraph::graph::NodeIndex, d2::Vect2D>){
     // will give the boundary of the  rectangle that include all nodes used by plot function
-    let this_rectangle = Rectangle{up_left: d2::Vect2D{x:0.0, y:0.0},
-								down_rigth: d2::Vect2D{x:0.0, y:0.0}};
+    let this_rectangle = d2::Rectangle{up_left: d2::Vect2D{x:0.0, y:0.0},
+								down_right: d2::Vect2D{x:0.0, y:0.0}};
 
-    let number_nodes = node_cc.len();
-     let array_node1 = common_layout::init_position(node_cc,
+   let number_nodes = node_cc.len();
+   let array_node1 = common_layout::init_position(node_cc,
                                                     100f32,
                                                     100f32);
-    let array_node2 : [&mut d2::Vect2D; number_nodes];
 
-}
+
+}*/

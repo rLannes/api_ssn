@@ -5,7 +5,7 @@ use fnv::FnvHashMap;
 use petgraph::Graph;
 
 //use easy_cartesians::common::d2_coordinate::{Point2d, Polar, Rectangle};
-
+use small_cartesians_lib::module::d2;
 use std::io::BufReader;
 use std::io::BufWriter;
 use std::io::prelude::*;
@@ -18,7 +18,7 @@ use std::fmt::{self, Formatter, Display};
 ///specification of svg format from w3.org
 
 pub fn write_graph_svg<'a, T, U>(my_graph: &petgraph::Graph<U, T, petgraph::Undirected>,
-	position_map: &FnvHashMap<petgraph::graph::NodeIndex, Point2d>, file_: &Path) {
+	position_map: &FnvHashMap<petgraph::graph::NodeIndex, d2::Vect2D>, file_: &Path) {
 		  let out_file = File::create(file_).unwrap_or_else(|why| {
 	panic!(
 		"couldn't open  {}",
