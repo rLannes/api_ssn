@@ -1,13 +1,14 @@
 extern crate fnv;
 extern crate petgraph;
 extern crate rand;
-extern crate easy_cartesians;
+extern crate small_cartesians_lib;
 
 use std::time::Instant;
 
 pub mod common;
 pub mod read_write;
 pub mod algo;
+pub mod layout;
 
 //use common::
 

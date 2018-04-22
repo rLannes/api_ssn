@@ -1,10 +1,10 @@
 extern crate petgraph;
 extern crate fnv;
-extern crate easy_cartesians;
+//extern crate easy_cartesians;
 use fnv::FnvHashMap;
 use petgraph::Graph;
 
-use easy_cartesians::common::d2_coordinate::{Point2d, Polar, Rectangle};
+//use easy_cartesians::common::d2_coordinate::{Point2d, Polar, Rectangle};
 
 use std::io::BufReader;
 use std::io::BufWriter;
