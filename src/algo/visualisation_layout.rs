@@ -1,10 +1,10 @@
 /// layout
-extern crate easy_cartesians;
+extern crate small_cartesians_lib;
 extern crate fnv;
 extern crate petgraph;
 extern crate rand;
 
-
+use small_cartesians_lib::module::2D;
 use easy_cartesians::common::d2_coordinate::{Point2d, Polar, Rectangle};
 
 use read_write::write_svg::write_graph_svg;
