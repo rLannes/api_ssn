@@ -87,7 +87,7 @@ impl EdgesAttr{
 		return true
 		}
 		
-	pub fn pass_threshold(&self, threshold_struct: &EdgesAttr) -> bool{ // i giove it a try I think it will be way faster than assign each times
+	pub fn pass_threshold(&self, threshold_struct: &EdgesAttr) -> bool{ // i give it a try I think it will be way faster than assign each times
 		if self.cov < threshold_struct.cov {return false}
 		else if self.pid < threshold_struct.pid {return false}
 		else if self.eval > threshold_struct.eval {return false} // for eval the lower the better
@@ -226,7 +226,7 @@ impl Default for DicoHeader{
 		}
 	}
 
-
+// TODO nicer
 impl fmt::Display for DicoHeader{
 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
 		write!(f, "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n",

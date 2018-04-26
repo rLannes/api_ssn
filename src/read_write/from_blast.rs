@@ -55,7 +55,7 @@ pub fn read_from_blast(header: &DicoHeader, file: &Path, threshold_values:Option
 		
 		// get index return the graph index of a nodes , and create a node and add it to the graph if it don't exist 
 		let index1 = function::get_index(&mut my_graph, &mut my_name_to_index_hashmap, v_line[header.qid].to_string());
-		let index2 = function::get_index(&mut my_graph, &mut my_name_to_index_hashmap, v_line[header.qid].to_string());
+		let index2 = function::get_index(&mut my_graph, &mut my_name_to_index_hashmap, v_line[header.sid].to_string());
 		// then if edges don't exist or is of lower quality update it
 		function::add_edges(&mut my_graph, index1, index2, this_edges_properties);
 		}
@@ -93,8 +93,7 @@ pub fn read_from_blast_only_edges(header: &DicoHeader, file: &Path, threshold_va
 								.split_whitespace()
 								.collect();
 		
-		
-		
+
 		let this_edges_properties = function::get_std_edges_attributs(&v_line, header);
 		// before going further we check if edges pass threshold
 		match threshold_values{
@@ -104,7 +103,7 @@ pub fn read_from_blast_only_edges(header: &DicoHeader, file: &Path, threshold_va
 		
 		// get index return the graph index of a nodes , and create a node and add it to the graph if it don't exist 
 		let index1 = function::get_index(&mut my_graph, &mut my_name_to_index_hashmap, v_line[header.qid].to_string());
-		let index2 = function::get_index(&mut my_graph, &mut my_name_to_index_hashmap, v_line[header.qid].to_string());
+		let index2 = function::get_index(&mut my_graph, &mut my_name_to_index_hashmap, v_line[header.sid].to_string());
 		// then if edges don't exist or is of lower quality update it
 		my_graph.update_edge(index1, index2, ());
 		}
@@ -138,7 +137,7 @@ pub fn read_from_blast_big_edges_info(header: &DicoHeader, file: &Path, threshol
 								.split_whitespace()
 								.collect();
 		let this_edges_properties = function::get_std_edges_attributs(&v_line, header);
-		// before going further we check if edges pass threshold
+		// before going further we check if edges pass threshold else we go to next line
 		match threshold_values{
 			Some(threshold) => {if !this_edges_properties.pass_threshold(&threshold){continue}},
 			None => {},
@@ -146,7 +145,7 @@ pub fn read_from_blast_big_edges_info(header: &DicoHeader, file: &Path, threshol
 			
 		// get index return the graph index of a nodes , and create a node and add it to the graph if it don't exist 
 		let index1 = function::get_index(&mut my_graph, &mut my_name_to_index_hashmap, v_line[header.qid].to_string());
-		let index2 = function::get_index(&mut my_graph, &mut my_name_to_index_hashmap, v_line[header.qid].to_string());
+		let index2 = function::get_index(&mut my_graph, &mut my_name_to_index_hashmap, v_line[header.sid].to_string());
 		
 		
 		let full = function::get_full_edges_attributs(&v_line,
