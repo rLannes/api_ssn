@@ -24,6 +24,10 @@ impl Default for NodeAttr {
     }
 }
 
+pub trait is_best<T>{
+	fn self_is_best(&self, other: &T) -> bool;
+}
+
 pub trait Get_weigth{
 	fn get_weigth(&self) -> f32;
 	}
@@ -31,6 +35,14 @@ pub trait Get_weigth{
 #[derive(Copy, Clone)]
 pub struct LigthEdges{
 	pub weight:f32,
+}
+
+impl is_best<LigthEdges> for LigthEdges{
+	fn self_is_best(&self, other: &LigthEdges) -> bool{
+		if self.weight >= other.weight{return true;}
+		else {return false;}
+	}
+
 }
 
 impl Get_weigth for LigthEdges{
@@ -48,6 +60,23 @@ pub struct EdgesAttr {
     pub eval: f64,
     pub pid: f32,
     pub cov: f32, // minimum coverage
+}
+
+
+
+impl is_best<EdgesAttr> for EdgesAttr{
+	fn self_is_best(&self, other: &EdgesAttr) -> bool{
+		if self.eval < other.eval {return true}
+		else if self.eval > other.eval {return false}
+		else{if self.pid > other.pid {return true}
+			else if self.pid < other.pid {return false}
+			else{
+				if self.cov > other.cov {return true}
+				else if self.cov < other.cov {return false}
+				}
+			}
+		return true
+		}
 }
 
 

@@ -7,34 +7,35 @@ use small_cartesians_lib::module::d2;
 use fnv::FnvHashMap;
 use fnv::FnvHashSet;
 use std::iter::FromIterator;
+use common::structure::is_best;
+use common;
 
 
 /// if node does not exist
 /// create it uptade hashmap
 /// Create a node add it to the hash_table
 /// index
-pub fn get_index<T>(
-    my_graph: &mut petgraph::Graph<NodeAttr, T, petgraph::Undirected>,
+pub fn get_index<U, T>(
+    my_graph: &mut petgraph::Graph<U, T, petgraph::Undirected>,
     my_map: &mut FnvHashMap<String, petgraph::graph::NodeIndex>,
     key: String,
+	weight: U
 ) -> petgraph::prelude::NodeIndex {
     match my_map.get(&key) {
         Some(&number) => number, // the node exist we return the corresponding index
         None => {
-            let node_index = my_graph.add_node(NodeAttr {
-                name_real: key.to_string(),
-            });
+            let node_index = my_graph.add_node(weight);
             my_map.insert(key, node_index);
             node_index
         }
     }
 }
 
-
-pub fn add_edges(my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttr, petgraph::Undirected>,
+pub fn add_edges<U, T :is_best<T>>(my_graph: &mut petgraph::Graph<U, T, petgraph::Undirected>,
 	node_index1: petgraph::graph::NodeIndex,
 	node_index2: petgraph::graph::NodeIndex,
-	edge_atr: EdgesAttr){
+	edge_atr: T)
+	where T: common::structure::is_best<T>{
 	
 	let test: Option<petgraph::graph::EdgeIndex> = my_graph.find_edge(node_index1, node_index2);
 	
@@ -46,7 +47,7 @@ pub fn add_edges(my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttr, petgraph::U
 	else{
 		let mut bolean = false;
 		{
-			let existing_edges_attributs: &EdgesAttr = &my_graph[test.unwrap()];
+			let existing_edges_attributs = &my_graph[test.unwrap()];
 			if edge_atr.self_is_best(&existing_edges_attributs){
 				bolean = true;
 				}
