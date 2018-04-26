@@ -227,9 +227,17 @@ impl Default for DicoHeader{
 	}
 
 
+impl fmt::Display for DicoHeader{
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
+		write!(f, "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n",
+			   self.qid, self.sid, self.eval, self.bitscore,
+		self.pid, self.qstart, self.qend, self.qlen,
+		self.sstart, self.send, self.slen)
+	}
+}
 impl DicoHeader{
 	
-	fn from_string(my_string: String) -> DicoHeader{ // a bit long but necessary
+	pub fn from_string(my_string: String) -> DicoHeader{ // a bit long but necessary
 		
 		let mut this_dico_header = DicoHeader::default();
 		let vec_of_my_string: Vec<_> = my_string.trim().split_whitespace().collect();  // strip() split() my_string

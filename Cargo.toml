@@ -5,6 +5,6 @@ authors = ["romain <romain.lannes@gmail.com>"]
 
 [dependencies]
 small_cartesians_lib = { git = "https://github.com/rLannes/small_cartesians_rust_lib" }
-petgraph = "*"
+petgraph = "0.4.5"
 fnv = "*"
 rand = "0.3.0"
