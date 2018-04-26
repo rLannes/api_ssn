@@ -7,10 +7,15 @@ use fnv::{FnvHashSet, FnvHashMap};
 use std::iter::FromIterator;
 use petgraph::visit::EdgeRef;
 use common;
+use petgraph::graph;
 use std::borrow::ToOwned;
 
+/// create a new graph from a set of node
+/// the hashmap return contain the new indice as usize and the old as usize as a string (sorry for the cast...)
+///
 pub fn select_from_node<U, T>(my_vec: Vec<petgraph::graph::NodeIndex>,
                         my_graph: &petgraph::Graph<U, T, petgraph::Undirected>)
+    -> (FnvHashMap<String, petgraph::graph::NodeIndex>, petgraph::Graph::<U, T, petgraph::Undirected>)
     where
         T: common::structure::is_best<T> + Copy,
         U: Copy{
@@ -44,6 +49,6 @@ pub fn select_from_node<U, T>(my_vec: Vec<petgraph::graph::NodeIndex>,
             }
         }
     }
-    // From the edges list create a new graph and a
+    return (my_name_to_index_hashmap, my_new_graph)
 }
 
