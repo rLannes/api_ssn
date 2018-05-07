@@ -2,6 +2,8 @@ This library try to provides tools for working with graph in rust particulary is
 Facilitate the building and cleaning of Sequence Similarity Network (SSN).
 SSN are use in bioinformatics to explore genetic and proteic sequences relationship.
 
+This library extensively used petgraph a graph library in rust.
+
 For now this lib is not finish I want to add louvain algorithm to it.
 And because is my firt library and my first big project in rust you may find strange design.
 
