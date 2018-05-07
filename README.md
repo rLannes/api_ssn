@@ -10,5 +10,7 @@ because is my firSt library and my first big project in rust you may find strang
 
 pull request, bug report  and issue are welcome.
 
+
+If you use this for academics research please consider to add a sentence in the aknowledgment section.
 # TODO some example and use case
 
