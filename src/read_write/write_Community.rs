@@ -9,7 +9,7 @@ use std::path::Path;
 use petgraph::graph;
 use std::fmt;
 
-pub fn from_vec_of_com<'a, T: fmt::Display, U: fmt::Display>(my_vec: &Vec<Vec<petgraph::prelude::NodeIndex>>,
+pub fn from_vec_of_com<'a, U: fmt::Display, T>(my_vec: &Vec<Vec<petgraph::prelude::NodeIndex>>,
                                                              file_: &Path,
                                                              my_graph: &petgraph::Graph<U, T, petgraph::Undirected>){
 
