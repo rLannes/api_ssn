@@ -22,7 +22,7 @@ pub fn select_from_node<U: Copy, T: common::structure::is_best<T> + Copy>(my_vec
 //        U: Copy{
     {
     // Collect all node in a HashSet
-    let set_node = FnvHashSet::from_iter(&my_vec);
+    let set_node = FnvHashSet::from_iter(my_vec);
     // the new_graph
     let mut my_new_graph = Graph::<U, T, petgraph::Undirected>::new_undirected();
 
@@ -33,7 +33,7 @@ pub fn select_from_node<U: Copy, T: common::structure::is_best<T> + Copy>(my_vec
     //let mut vec_edges = Vec::with_capacity(10_000);
 
     // Collect all edges assert both end lie in the HashSet
-    for node_index in &my_vec {
+    for node_index in my_vec {
         for edge in my_graph.edges(*node_index){
             if set_node.contains(&edge.source()) && set_node.contains(&edge.target()){
 
