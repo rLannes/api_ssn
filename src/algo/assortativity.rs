@@ -13,6 +13,7 @@ use std::iter::FromIterator;
 fn delta_kronecker(node1_annotation: &String, node2_annotation: &String,
                   map_annot: &FnvHashMap<String, String>,
                   filter_label: &bool, annot_set: &FnvHashSet<String>) -> u8 {
+    println!("kronecker: annot1: {}, annot2: {}", node1_annotation, node2_annotation);
     if *filter_label {
         if !annot_set.contains(node1_annotation) || !annot_set.contains(node2_annotation) {
             return 0
@@ -67,11 +68,13 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
     let mut somme2 = 0.0f32;
     // now we iter trough the edges
     for edge in my_graph.raw_edges(){
+        println!("in_edges");
         let source = edge.source();
         let target = edge.target();
         if delta_kronecker(&my_graph[source].to_string(), &my_graph[target].to_string(),
-        &map_annotation, &filter_label, &set_annotation) == 0 {continue}
+        &map_annotation, &filter_label, &set_annotation) == 0 {println!("kron: 0"); continue}
         else {
+            println!("in_kronecker");
             let degree1 = get_degree(my_graph, &source);
             let degree2 = get_degree(my_graph, &target);
             let degree_product = degree1 * degree2;
