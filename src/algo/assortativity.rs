@@ -80,6 +80,7 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
             somme2 += (1.0f32 - intermediare as f32);
         }
     }
+    println!("somme1: {}, somme2: {}, total_node: {}",somme1, somme2, total_node);
     somme1 / ((total_node as f32) - somme2)
 }
 
