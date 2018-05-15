@@ -31,6 +31,14 @@ pub fn get_index<U, T>(
     }
 }
 
+
+//
+pub fn get_degree<U, T>(my_graph: &petgraph::Graph<U, T, petgraph::Undirected>,
+						node_index: &petgraph::graph::NodeIndex) -> u32 {
+	my_graph.neighbors(*node_index).count() as u32
+}
+
+
 pub fn add_edges<U, T :is_best<T>>(my_graph: &mut petgraph::Graph<U, T, petgraph::Undirected>,
 	node_index1: petgraph::graph::NodeIndex,
 	node_index2: petgraph::graph::NodeIndex,
