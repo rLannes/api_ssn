@@ -73,25 +73,40 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
     let mut somme1 = 0.0f32;
     //sum(Aij -(Ki*Kj/m))
     let mut somme2 = 0.0f32;
-    // now we iter trough the edges
-    for edge in my_graph.raw_edges(){
-        println!("in_edges");
-        let source = edge.source();
-        let target = edge.target();
-        if delta_kronecker(&my_graph[source].to_string(), &my_graph[target].to_string(),
+
+    let mut Aij = 0.0f32;
+
+    for node_i in my_graph.node_indices(){
+
+        for node_j in my_graph.node_indices(){
+
+            if node_i == node_j {continue}
+
+            else {
+                if my_graph.contains_edge(node_i, node_j){
+                    Aij = 1.0;
+                }
+                else { Aij = 0.0; }
+
+                if delta_kronecker(&my_graph[node_i].to_string(), &my_graph[node_j].to_string(),
         &map_annotation, &filter_label, &set_annotation) == 0 {println!("kron: 0"); continue}
-        else {
-            println!("in_kronecker");
-            let degree1 = get_degree(my_graph, &source);
-            let degree2 = get_degree(my_graph, &target);
-            let degree_product = degree1 * degree2;
-            let intermediare = degree_product as f32/ total_node as f32;
-            somme1 += intermediare as f32;
-            somme2 += (1.0f32 - intermediare as f32);
-            println!("degree1: {}, degree2: {}, degree_product: {}, intermediare: {}, somm1: {} somm2: {}",
-            degree1, degree2, degree_product, intermediare, somme1, somme2);
+                 else {
+                    println!("in_kronecker");
+                    let degree1 = get_degree(my_graph, &node_j);
+                    let degree2 = get_degree(my_graph, &node_i);
+                    let degree_product = degree1 * degree2;
+                    let intermediare = degree_product as f32/ (2.0f32 * total_node as f32);
+                    somme1 += intermediare as f32;
+                    somme2 += (1.0f32 - intermediare as f32);
+                    println!("degree1: {}, degree2: {}, degree_product: {}, intermediare: {}, somm1: {} somm2: {}",
+                    degree1, degree2, degree_product, intermediare, somme1, somme2);
+                    }
+
+            }
         }
+
     }
+
     println!("somme1: {}, somme2: {}, total_node: {}",somme1, somme2, total_node);
     somme2 / ((total_node as f32) - somme1)
 }
