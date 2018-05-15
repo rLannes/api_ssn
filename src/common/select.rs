@@ -12,14 +12,15 @@ use std::borrow::ToOwned;
 
 /// create a new graph from a set of node
 /// the hashmap return contain the new indice as usize and the old as usize as a string (sorry for the cast...)
+/// It will keep only on edges between two nodes! to determine which one edges weight must implement "is_best" trait
 ///
-pub fn select_from_node<U, T>(my_vec: Vec<petgraph::graph::NodeIndex>,
+pub fn select_from_node<U: Copy, T: common::structure::is_best<T> + Copy>(my_vec: Vec<petgraph::graph::NodeIndex>,
                         my_graph: &petgraph::Graph<U, T, petgraph::Undirected>)
     -> (FnvHashMap<String, petgraph::graph::NodeIndex>, petgraph::Graph::<U, T, petgraph::Undirected>)
-    where
-        T: common::structure::is_best<T> + Copy,
-        U: Copy{
-
+//    where
+//        T: common::structure::is_best<T> + Copy,
+//        U: Copy{
+    {
     // Collect all node in a HashSet
     let set_node = FnvHashSet::from_iter(&my_vec);
     // the new_graph
