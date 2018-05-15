@@ -80,9 +80,9 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
 
         for node_j in my_graph.node_indices(){
 
-            //if node_i == node_j {continue}
+            if node_i == node_j {continue}
 
-            //else {
+            else {
                 if my_graph.contains_edge(node_i, node_j){
                     Aij = 1.0;
                 }
@@ -101,7 +101,7 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
                     println!("degree1: {}, degree2: {}, degree_product: {}, intermediare: {}, somm1: {} somm2: {}",
                     degree1, degree2, degree_product, intermediare, somme1, somme2);
                     }
-            //}
+            }
         }
     }
 
