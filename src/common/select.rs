@@ -14,9 +14,8 @@ use std::borrow::ToOwned;
 /// the hashmap return contain the new indice as usize and the old as usize as a string (sorry for the cast...)
 /// It will keep only on edges between two nodes! to determine which one edges weight must implement "is_best" trait
 ///
-pub fn select_from_node<U: Copy, T: common::structure::is_best<T> + Copy>(my_vec: &Vec<petgraph::graph::NodeIndex>,
-                        my_graph: &petgraph::Graph<U, T, petgraph::Undirected>)
-    -> (FnvHashMap<String, petgraph::graph::NodeIndex>, petgraph::Graph::<U, T, petgraph::Undirected>)
+pub fn select_from_node<U: Clone, T: common::structure::is_best<T> + Copy>(my_vec: &Vec<petgraph::graph::NodeIndex>,
+                        my_graph: &petgraph::Graph<U, T, petgraph::Undirected>) -> (FnvHashMap<String, petgraph::graph::NodeIndex>, petgraph::Graph::<U, T, petgraph::Undirected>)
 //    where
 //        T: common::structure::is_best<T> + Copy,
 //        U: Copy{
@@ -39,11 +38,11 @@ pub fn select_from_node<U: Copy, T: common::structure::is_best<T> + Copy>(my_vec
 
                 let index1 = function::get_index(&mut my_new_graph,
                                                  &mut my_name_to_index_hashmap, edge.source().index().to_string(),
-                                                 my_graph[edge.source()]);
+                                                 my_graph[edge.source()].clone());
 
                 let index2 = function::get_index(&mut my_new_graph,
                                                  &mut my_name_to_index_hashmap, edge.target().index().to_string(),
-                                                 my_graph[edge.target()]);
+                                                 my_graph[edge.target()].clone());
                 //vec_edges.append(edge);
                 function::add_edges(&mut my_new_graph, index1, index2,
                                     *edge.weight());
