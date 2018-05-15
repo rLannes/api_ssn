@@ -70,9 +70,9 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
     // there are two main computation du do:
     //
     //sum(Ki*Kj/m)
-    let mut somme1 = 0.0f32;
-    //sum(Aij -(Ki*Kj/m))
     let mut somme2 = 0.0f32;
+    //sum(Aij -(Ki*Kj/m))
+    let mut somme1 = 0.0f32;
 
     let mut Aij = 0.0f32;
 
@@ -96,8 +96,8 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
                     let degree2 = get_degree(my_graph, &node_i) as f32;
                     let degree_product = degree1 * degree2;
                     let intermediare = degree_product / (2.0 * total_node);
-                    somme1 += intermediare;
-                    somme2 += (Aij - intermediare);
+                    somme2 += intermediare;
+                    somme1 += (Aij - intermediare);
                     println!("degree1: {}, degree2: {}, degree_product: {}, intermediare: {}, somm1: {} somm2: {}",
                     degree1, degree2, degree_product, intermediare, somme1, somme2);
                     }
