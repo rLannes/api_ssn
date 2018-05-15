@@ -13,13 +13,13 @@ use std::iter::FromIterator;
 fn delta_kronecker(node1_annotation: &String, node2_annotation: &String,
                   map_annot: &FnvHashMap<String, String>,
                   filter_label: &bool, annot_set: &FnvHashSet<String>) -> u8 {
-    println!("kronecker: annot1: {}, annot2: {}", node1_annotation, node2_annotation);
+
     let node1_annot = map_annot.get(node1_annotation);
     let node2_annot = map_annot.get(node2_annotation);
     if node2_annot.is_none() || node1_annot.is_none(){
         panic!("unable to find annotation for at least one of those {} {}", node2_annotation, node1_annotation);
     }
-
+    println!("kronecker: annot1: {} {}, annot2: {} {}", node1_annotation, node1_annot, node2_annotation, node2_annot);
     if *filter_label {
         if !annot_set.contains(node1_annot.unwrap()) || !annot_set.contains(node2_annot.unwrap()) {
             return 0
