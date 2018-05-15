@@ -19,10 +19,10 @@ fn delta_kronecker(node1_annotation: &String, node2_annotation: &String,
     if node2_annot.is_none() || node1_annot.is_none(){
         panic!("unable to find annotation for at least one of those {} {}", node2_annotation, node1_annotation);
     }
-    println!("kronecker: annot1: {} {}, annot2: {} {}", node1_annotation, node1_annot.unwrap(), node2_annotation, node2_annot.unwrap());
+    //println!("kronecker: annot1: {} {}, annot2: {} {}", node1_annotation, node1_annot.unwrap(), node2_annotation, node2_annot.unwrap());
     if *filter_label {
         if !annot_set.contains(node1_annot.unwrap()) || !annot_set.contains(node2_annot.unwrap()) {
-            println!("in filter labels");
+            //println!("in filter labels");
             return 0
         }
     }
@@ -80,35 +80,33 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
 
         for node_j in my_graph.node_indices(){
 
-            if node_i == node_j {continue}
+            //if node_i == node_j {continue}
 
-            else {
+            //else {
                 if my_graph.contains_edge(node_i, node_j){
                     Aij = 1.0;
                 }
                 else { Aij = 0.0; }
 
                 if delta_kronecker(&my_graph[node_i].to_string(), &my_graph[node_j].to_string(),
-        &map_annotation, &filter_label, &set_annotation) == 0 {println!("kron: 0"); continue}
+        &map_annotation, &filter_label, &set_annotation) == 0 { continue}
                  else {
-                    println!("in_kronecker");
+                    //println!("in_kronecker");
                     let degree1 = get_degree(my_graph, &node_j) as f32;
                     let degree2 = get_degree(my_graph, &node_i) as f32;
                     let degree_product = degree1 * degree2;
-                    let intermediare = degree_product / (2.0f32 * total_node);
+                    let intermediare = degree_product / (2.0 * total_node);
                     somme1 += intermediare;
-                    somme2 += (Aij - intermediare );
+                    somme2 += (Aij - intermediare);
                     println!("degree1: {}, degree2: {}, degree_product: {}, intermediare: {}, somm1: {} somm2: {}",
                     degree1, degree2, degree_product, intermediare, somme1, somme2);
                     }
-
-            }
+            //}
         }
-
     }
 
     println!("somme1: {}, somme2: {}, total_node: {}",somme1, somme2, total_node);
-    somme2 / ((2.0 * total_node as f32) - somme1)
+    somme2 / ((2.0 * total_node) - somme1)
 }
 
 //TODO make one with node weight directly
