@@ -14,7 +14,7 @@ use std::borrow::ToOwned;
 /// the hashmap return contain the new indice as usize and the old as usize as a string (sorry for the cast...)
 /// It will keep only on edges between two nodes! to determine which one edges weight must implement "is_best" trait
 ///
-pub fn select_from_node<U: Copy, T: common::structure::is_best<T> + Copy>(my_vec: Vec<petgraph::graph::NodeIndex>,
+pub fn select_from_node<U: Copy, T: common::structure::is_best<T> + Copy>(my_vec: &Vec<petgraph::graph::NodeIndex>,
                         my_graph: &petgraph::Graph<U, T, petgraph::Undirected>)
     -> (FnvHashMap<String, petgraph::graph::NodeIndex>, petgraph::Graph::<U, T, petgraph::Undirected>)
 //    where
