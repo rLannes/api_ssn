@@ -108,7 +108,7 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
     }
 
     println!("somme1: {}, somme2: {}, total_node: {}",somme1, somme2, total_node);
-    somme2 / ((total_node as f32) - somme1)
+    somme2 / ((2.0 * total_node as f32) - somme1)
 }
 
 //TODO make one with node weight directly
