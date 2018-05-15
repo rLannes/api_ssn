@@ -42,7 +42,7 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
 
 
     // number of vertices
-    let mut total_node = 0.0f32;
+    let mut total_edges = 0.0f32;
 
     let mut filter_label = true;
     let mut set_annotation = FnvHashSet::with_capacity_and_hasher(100, Default::default());
@@ -55,15 +55,18 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
 
     if filter_label{
         // get only node matching labels
-        for node in my_graph.raw_nodes(){
-            if set_annotation.contains(&node.weight.to_string()){
-              total_node += 1.0;
+        for edges in my_graph.raw_edges(){
+            let source = edges.source();
+            let target = edges.target();
+
+            if set_annotation.contains(&my_graph[source].to_string()) && set_annotation.contains(&my_graph[target].to_string()) {
+                total_edges += 1.0;
             }
         }
     }
 
     else{
-       total_node =  my_graph.node_count() as f32;
+       total_edges =  my_graph.edge_count() as f32;
     }
 
 
@@ -95,7 +98,7 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
                     let degree1 = get_degree(my_graph, &node_j) as f32;
                     let degree2 = get_degree(my_graph, &node_i) as f32;
                     let degree_product = degree1 * degree2;
-                    let intermediare = degree_product / (2.0 * total_node);
+                    let intermediare = degree_product / (2.0 * total_edges);
                     somme2 += intermediare;
                     somme1 += (Aij - intermediare);
                     println!("degree1: {}, degree2: {}, degree_product: {}, intermediare: {}, somm1: {} somm2: {}",
@@ -105,8 +108,8 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
         }
     }
 
-    println!("somme1: {}, somme2: {}, total_node: {}",somme1, somme2, total_node);
-    somme1 / ((2.0 * total_node) - somme2)
+    println!("somme1: {}, somme2: {}, total_node: {}",somme1, somme2, total_edges);
+    somme1 / ((2.0 * total_edges) - somme2)
 }
 
 //TODO make one with node weight directly
