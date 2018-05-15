@@ -22,12 +22,13 @@ fn delta_kronecker(node1_annotation: &String, node2_annotation: &String,
     println!("kronecker: annot1: {} {}, annot2: {} {}", node1_annotation, node1_annot.unwrap(), node2_annotation, node2_annot.unwrap());
     if *filter_label {
         if !annot_set.contains(node1_annot.unwrap()) || !annot_set.contains(node2_annot.unwrap()) {
+            println!("in filter labels");
             return 0
         }
     }
 
-    if node1_annotation != node2_annotation{ return 0 }
-    else { return 1 }
+    if node1_annot != node2_annot{ return 0 }
+    else {return 1 }
 }
 
 
