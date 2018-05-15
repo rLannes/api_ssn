@@ -92,12 +92,12 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
         &map_annotation, &filter_label, &set_annotation) == 0 {println!("kron: 0"); continue}
                  else {
                     println!("in_kronecker");
-                    let degree1 = get_degree(my_graph, &node_j);
-                    let degree2 = get_degree(my_graph, &node_i);
+                    let degree1 = get_degree(my_graph, &node_j) ;
+                    let degree2 = get_degree(my_graph, &node_i) as f32;
                     let degree_product = degree1 * degree2;
-                    let intermediare = degree_product as f32/ (2.0f32 * total_node as f32);
+                    let intermediare = degree_product / (2.0f32 * total_node as f32);
                     somme1 += intermediare as f32;
-                    somme2 += (1.0f32 - intermediare as f32);
+                    somme2 += (Aij - intermediare as f32);
                     println!("degree1: {}, degree2: {}, degree_product: {}, intermediare: {}, somm1: {} somm2: {}",
                     degree1, degree2, degree_product, intermediare, somme1, somme2);
                     }
