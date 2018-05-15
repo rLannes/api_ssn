@@ -42,7 +42,7 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
 
 
     // number of vertices
-    let mut total_node = 0u32;
+    let mut total_node = 0.0f32;
 
     let mut filter_label = true;
     let mut set_annotation = FnvHashSet::with_capacity_and_hasher(100, Default::default());
@@ -57,13 +57,13 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
         // get only node matching labels
         for node in my_graph.raw_nodes(){
             if set_annotation.contains(&node.weight.to_string()){
-              total_node += 1;
+              total_node += 1.0;
             }
         }
     }
 
     else{
-       total_node =  my_graph.node_count() as u32;
+       total_node =  my_graph.node_count() as f32;
     }
 
 
@@ -92,12 +92,12 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
         &map_annotation, &filter_label, &set_annotation) == 0 {println!("kron: 0"); continue}
                  else {
                     println!("in_kronecker");
-                    let degree1 = get_degree(my_graph, &node_j) ;
+                    let degree1 = get_degree(my_graph, &node_j) as f32;
                     let degree2 = get_degree(my_graph, &node_i) as f32;
                     let degree_product = degree1 * degree2;
-                    let intermediare = degree_product / (2.0f32 * total_node as f32);
-                    somme1 += intermediare as f32;
-                    somme2 += (Aij - intermediare as f32);
+                    let intermediare = degree_product / (2.0f32 * total_node);
+                    somme1 += intermediare;
+                    somme2 += (Aij - intermediare );
                     println!("degree1: {}, degree2: {}, degree_product: {}, intermediare: {}, somm1: {} somm2: {}",
                     degree1, degree2, degree_product, intermediare, somme1, somme2);
                     }
