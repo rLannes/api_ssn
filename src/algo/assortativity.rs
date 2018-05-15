@@ -27,7 +27,7 @@ fn delta_kronecker(node1_annotation: &String, node2_annotation: &String,
 ///only_those_labels if Some will only consider node that have specify label
 /// map_annotation an hashMap node.to_string() -> annotation
 /// my_graph a petgraph Graph
-pub fn graph_assorativity_from_hashmap_label<U: Copy + fmt::Display, T: Copy>
+pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
                     (only_those_labels:Option<Vec<String>>,
                      my_graph: &Graph<U, T, petgraph::Undirected>,
                      map_annotation: &FnvHashMap<String, String>) -> f32{
