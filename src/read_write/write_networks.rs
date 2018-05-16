@@ -19,7 +19,7 @@ use std::fmt;
 /// it is in a tsv format
 /// for each edges it print the node attributs first then the edges attributes
 pub fn write_networks<N: fmt::Display, T: fmt::Display>(file: &Path,
-                         my_graph: petgraph::Graph<N, T, petgraph::Undirected>) -> ()
+                         my_graph: &petgraph::Graph<N, T, petgraph::Undirected>) -> ()
 {
     let out_file = File::create(file).unwrap_or_else(|why| {
 	    panic!(
