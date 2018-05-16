@@ -38,12 +38,12 @@ pub fn read_from_blast(header: &DicoHeader, file: &Path, threshold_values:Option
     
     //ToDO clean this sepearte in other foo()
     let mut  in_file_buffer = BufReader::with_capacity(60_000, in_file); //bufering
-    let mut lines = String::with_capacity(400);
-	while in_file_buffer.read_line(&mut lines).unwrap() > 0{
-    //for lines in in_file_buffer.lines(){
+    //let mut lines = String::with_capacity(400);
+	//while in_file_buffer.read_line(&mut lines).unwrap() > 0{
+    for lines in in_file_buffer.lines(){
 		
-		//let current_line = lines.unwrap();
-		let v_line: Vec<_> = lines.trim() // split line into vector
+		let current_line = lines.unwrap();
+		let v_line: Vec<_> = current_line.trim() // split line into vector
 								.split_whitespace()
 								.collect();
 		
