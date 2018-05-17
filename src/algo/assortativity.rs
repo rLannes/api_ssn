@@ -104,6 +104,7 @@ impl SquaredMat{
     fn to_prop(&mut self) ->(){
 
         let sum: f32 = self.data.iter().sum();
+        println!("{}", sum);
         for i in 0..self.size{
             self.data[i as usize] /= sum;
         }
