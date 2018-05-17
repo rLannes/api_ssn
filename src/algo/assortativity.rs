@@ -115,7 +115,7 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
                     (only_those_labels:Option<Vec<String>>,
                      my_graph: &Graph<U, T, petgraph::Undirected>,
                      map_annotation: &FnvHashMap<String, String>,
-                   map_matrices: FnvHashMap<String, u32>) -> f32{
+                   map_matrices: &FnvHashMap<String, u32>) -> f32{
 
 
     let mut my_mat =  SquaredMat::new(my_graph.node_count() as u32);
