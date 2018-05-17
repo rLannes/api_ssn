@@ -126,14 +126,14 @@ impl SquaredMat{
     fn to_prop(&mut self) ->(){
 
         let sum: f32 = self.data.iter().sum();
-        for i in 0..self.size{
+        for i in 0..self.data.len(){
             self.data[i as usize] /= sum;
         }
     }
 
     fn un_diagonalise_from_less(&mut self) -> (){
         let size_ = self.size;
-         for indice in 0..size_ {
+         for indice in 0..len() {
             let (row, col) = self.from_x_get_pos(indice);
              if row > col{
                  let value = self.get_value((col, row));
