@@ -133,8 +133,8 @@ impl SquaredMat{
 
     fn un_diagonalise_from_less(&mut self) -> (){
         let size_ = self.size;
-         for indice in 0..len() {
-            let (row, col) = self.from_x_get_pos(indice);
+         for indice in 0..self.data.len() {
+            let (row, col) = self.from_x_get_pos(indice as u32);
              if row > col{
                  let value = self.get_value((col, row));
                  self.add_value((row, col), value);
