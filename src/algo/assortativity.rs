@@ -84,7 +84,7 @@ impl SquaredMat{
             let (row, col) = self.from_x_get_pos(indice);
             let mut sum = 0.0;
             for sub_indices in 0..size_ {
-                println!("{} {} {} {}", row, col, sub_indices, indice);
+                //println!("{} {} {} {}", row, col, sub_indices, indice);
                 sum += self.get_value((row, sub_indices)) * self.get_value((sub_indices, col));
             }
             my_vec.push(sum);
@@ -156,6 +156,7 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
         }
 
     my_mat.to_prop();
+    my_mat.un_diagonalise_from_less();
     let squared_sum = my_mat.squared().get_somme();
     (my_mat.trace() - squared_sum) / (1.0 - squared_sum)
 
