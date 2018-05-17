@@ -15,9 +15,9 @@ use fnv::FnvHashMap;
 
 pub fn read_from_EdgesAttr(file: &Path, threshold_values:Option<EdgesAttr>) ->
 	(FnvHashMap<String, petgraph::graph::NodeIndex>,
-    Graph<NodeAttr, LigthEdges, petgraph::Undirected>){
+    Graph<NodeAttr, EdgesAttr, petgraph::Undirected>){
 
-	let mut my_graph = Graph::<NodeAttr, LigthEdges, petgraph::Undirected>::new_undirected();
+	let mut my_graph = Graph::<NodeAttr, EdgesAttr, petgraph::Undirected>::new_undirected();
 
 	let mut my_name_to_index_hashmap: FnvHashMap<String, petgraph::graph::NodeIndex> =
         FnvHashMap::with_capacity_and_hasher(1_000_000, Default::default());
