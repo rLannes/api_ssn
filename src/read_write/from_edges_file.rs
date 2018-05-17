@@ -47,7 +47,8 @@ pub fn read_from_EdgesAttr(file: &Path, threshold_values:Option<EdgesAttr>) ->
 										 v_line[0].to_string(), NodeAttr{name_real: v_line[0].to_string()} );
 		let index2 = function::get_index(&mut my_graph, &mut my_name_to_index_hashmap,
 										 v_line[1].to_string(), NodeAttr{name_real: v_line[1].to_string()});
-		my_graph.update_edge(index1, index2, default_weight);
+		function::add_edges(&mut my_graph, index1, index2, default_weight);
+		//my_graph.update_edge(index1, index2, default_weight);
 
 		}
 		(my_name_to_index_hashmap, my_graph)
