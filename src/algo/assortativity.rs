@@ -24,6 +24,28 @@ struct SquaredMat{
     data: Vec<f32>,
 }
 
+
+
+impl fmt::Display for SquaredMat{
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
+        let  chunck = self.size as usize;
+        let mut indix = 0 as usize;
+        let mut new_string = String::new();
+        let mut end = 0 as usize;
+        while indix < self.data.len() {
+            end = indix + chunck;
+            let slice = &self.data[indix..end];
+
+            let x: Vec<String> = slice.iter().map(|x| x.to_string()).collect();
+
+            new_string = format!("{}\n{}", new_string, x.join("\t"));
+            indix += chunck;
+        }
+		write!(f, "{}", new_string)
+	}
+}
+
+
 impl SquaredMat{
 
 
@@ -150,14 +172,15 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
             if row <= col {
                 my_mat.add_value((*row, *col), 1.0f32);
             }
-           // else{
-           //     my_mat.add_value((*col, *row), 1.0f32);
-            //}
+            println!("{}\t{}\n{}\n", row, col, my_mat);
         }
 
     my_mat.to_prop();
+    println!("prop: \n{}\n", my_mat);
     my_mat.un_diagonalise_from_less();
+    println!("diago: \n{}\n", my_mat);
     let squared_sum = my_mat.squared().get_somme();
+    println!("trace: {}, squared_sum {}", my_mat.trace(), squared_sum);
     (my_mat.trace() - squared_sum) / (1.0 - squared_sum)
 
 }
