@@ -169,7 +169,7 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
 
             let col = map_matrices.get(&annot_source.unwrap().to_owned()).unwrap();
             let row = map_matrices.get(&annot_target.unwrap().to_owned()).unwrap();
-            if row <= col {
+            if row >= col {
                 my_mat.add_value((*row, *col), 1.0f32);
             }
             else{
