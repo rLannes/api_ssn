@@ -103,7 +103,7 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
                     somme2 += intermediare;
                     somme1 += (Aij - intermediare);
                     println!("degree1: {}, degree2: {}, degree_product: {}, intermediare: {}, somm1: {} somm2: {}",
-                    //degree1, degree2, degree_product, intermediare, somme1, somme2);
+                    degree1, degree2, degree_product, intermediare, somme1, somme2);
                     }
             }
         }
