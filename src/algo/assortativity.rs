@@ -1,115 +1,143 @@
-extern crate fnv;
 extern crate petgraph;
+extern crate fnv;
 
-use petgraph::Graph;
-use std::fmt;
-use common::function::get_degree;
+
+use std::path;
 use fnv::FnvHashMap;
 use fnv::FnvHashSet;
+use petgraph::Graph;
 use std::iter::FromIterator;
 
-/// return 0 if node have different annotation or one node label not in annot_set if filter is set
-/// else return 1
-fn delta_kronecker(node1_annotation: &String, node2_annotation: &String,
-                  map_annot: &FnvHashMap<String, String>,
-                  filter_label: &bool, annot_set: &FnvHashSet<String>) -> u8 {
+use std::io::BufReader;
+use std::io::BufWriter;
+use std::io::prelude::*;
+use std::fs::File;
+use std::fmt;
+use std::path::Path;
+use std::iter::Iterator;
 
-    let node1_annot = map_annot.get(node1_annotation);
-    let node2_annot = map_annot.get(node2_annotation);
-    if node2_annot.is_none() || node1_annot.is_none(){
-        panic!("unable to find annotation for at least one of those {} {}", node2_annotation, node1_annotation);
+
+
+
+struct SquaredMat{
+    size: u32,
+    data: Vec<f32>,
+}
+
+impl SquaredMat{
+
+
+    fn transform_coordinate(&self, position: (u32, u32)) -> usize {
+        (self.size*position.0 + position.1) as usize
     }
-    //println!("kronecker: annot1: {} {}, annot2: {} {}", node1_annotation, node1_annot.unwrap(), node2_annotation, node2_annot.unwrap());
-    if *filter_label {
-        if !annot_set.contains(node1_annot.unwrap()) || !annot_set.contains(node2_annot.unwrap()) {
-            //println!("in filter labels");
-            return 0
+
+    fn from_x_get_pos(&self, value: u32) -> (u32, u32){
+        let col = (10.0 % 3.0) as u32;
+        let row = (10.0f32 / 3.0f32).trunc() as u32;
+        (row, col)
+    }
+
+    fn new(sized: u32) -> SquaredMat {
+
+        let data_size = (sized * sized) as usize;
+        let mut my_vec: Vec<f32> = Vec::with_capacity(data_size);
+        for i in 0..data_size{
+            my_vec.push(0.0);
+        }
+        let my_mat = SquaredMat {
+            size: sized,
+            data: my_vec,
+        };
+        return my_mat;
+    }
+
+    ///(row, col)
+    fn get_value(&self, position: (u32, u32)) -> f32{
+        self.data[self.transform_coordinate(position)]
+    }
+
+    fn change_value(&mut self, position: (u32, u32), value: f32) -> (){
+        let new_position = self.transform_coordinate(position);
+        self.data[new_position] = value;
+    }
+
+    fn trace(&self) -> f32 {
+        let mut sum = 0.0f32;
+        for i in 0..self.size{
+            sum += self.get_value((i, i));
+        }
+        return sum;
+    }
+
+    fn add_value(&mut self, position:(u32, u32), value:f32){
+        let old = self.get_value(position);
+        self.change_value(position, value + old);
+
+    }
+
+    fn squared(&self) -> SquaredMat {
+        let size_ = self.size;
+        let data_size = (size_* size_) as usize;
+        let mut my_vec: Vec<f32> = Vec::with_capacity(data_size);
+
+        for indice in 0..size_ {
+            let (row, col) = self.from_x_get_pos(indice);
+            let mut sum = 0.0;
+            for sub_indices in 0..size_ {
+                sum += self.get_value((row, sub_indices)) * self.get_value((sub_indices, col));
+            }
+            my_vec.push(sum);
+        }
+        let mut mymat = SquaredMat{
+            size: size_,
+            data: my_vec,
+        };
+
+        return mymat;
+    }
+
+    fn get_somme(&self) -> f32{
+        self.data.iter().sum()
+    }
+
+    fn to_prop(&mut self) ->(){
+
+        let sum: f32 = self.data.iter().sum();
+        for i in 0..self.size{
+            self.data[i as usize] /= sum;
         }
     }
 
-    if node1_annot != node2_annot{ return 0 }
-    else {return 1 }
 }
 
 
-///only_those_labels if Some will only consider node that have specify label
-/// map_annotation an hashMap node.to_string() -> annotation
-/// my_graph a petgraph Graph
-/// do not take into account self-edges
 pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
                     (only_those_labels:Option<Vec<String>>,
                      my_graph: &Graph<U, T, petgraph::Undirected>,
-                     map_annotation: &FnvHashMap<String, String>) -> f32{
+                     map_annotation: &FnvHashMap<String, String>,
+                   map_matrices: FnvHashMap<String, u32>) -> f32{
 
 
-    // number of vertices
-    let mut total_edges = 0.0f32;
-
-    let mut filter_label = true;
-    let mut set_annotation = FnvHashSet::with_capacity_and_hasher(100, Default::default());
-
-    match only_those_labels{
-        Some(my_vec) => {set_annotation = FnvHashSet::from_iter(my_vec);}
-        None => filter_label = false
-    }
-
-
-    if filter_label{
-        // get only node matching labels
-        for edges in my_graph.raw_edges(){
+    let mut my_mat =  SquaredMat::new(my_graph.node_count() as u32);
+    for edges in my_graph.raw_edges()
+        {
             let source = edges.source();
             let target = edges.target();
-
-            if set_annotation.contains(&my_graph[source].to_string()) && set_annotation.contains(&my_graph[target].to_string()) {
-                total_edges += 1.0;
+            let annot_source = map_annotation.get(&my_graph[source].to_string());
+            let annot_target = map_annotation.get(&my_graph[target].to_string());
+            if !map_matrices.contains_key(&annot_source.unwrap().to_owned()) || !map_matrices.contains_key(&annot_target.unwrap().to_owned()){
+                continue;
             }
+
+            let col = map_matrices.get(&annot_source.unwrap().to_owned()).unwrap();
+            let row = map_matrices.get(&annot_target.unwrap().to_owned()).unwrap();
+            my_mat.add_value((*row, *col), 1.0f32)
         }
-    }
 
-    else{
-       total_edges =  my_graph.edge_count() as f32;
-    }
+    my_mat.to_prop();
+    let squared_sum = my_mat.squared().get_somme();
+    (my_mat.trace() - squared_sum) / (1.0 - squared_sum)
 
-
-    // there are two main computation du do:
-    //
-    //sum(Ki*Kj/m)
-    let mut somme2 = 0.0f32;
-    //sum(Aij -(Ki*Kj/m))
-    let mut somme1 = 0.0f32;
-
-    let mut Aij = 0.0f32;
-
-    for node_i in my_graph.node_indices(){
-
-        for node_j in my_graph.node_indices(){
-
-            if node_i == node_j {continue}
-
-            else {
-                if my_graph.contains_edge(node_i, node_j){
-                    Aij = 1.0;
-                }
-                else { Aij = 0.0; }
-
-                if delta_kronecker(&my_graph[node_i].to_string(), &my_graph[node_j].to_string(),
-        &map_annotation, &filter_label, &set_annotation) == 0 { continue}
-                 else {
-                    //println!("in_kronecker");
-                    let degree1 = get_degree(my_graph, &node_j) as f32;
-                    let degree2 = get_degree(my_graph, &node_i) as f32;
-                    let degree_product = degree1 * degree2;
-                    let intermediare = degree_product / (2.0 * total_edges);
-                    somme2 += intermediare;
-                    somme1 += (Aij - intermediare);
-                    //println!("degree1: {}, degree2: {}, degree_product: {}, intermediare: {}, somm1: {} somm2: {}",
-                    //degree1, degree2, degree_product, intermediare, somme1, somme2);
-                    }
-            }
-        }
-    }
-    //println!("somme1: {}, somme2: {}, total_node: {}",somme1, somme2, total_edges);
-    somme1 / ((2.0 * total_edges) - somme2)
 }
 
-//TODO make one with node weight directly
+
