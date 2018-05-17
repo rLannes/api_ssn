@@ -84,7 +84,7 @@ impl SquaredMat{
             let (row, col) = self.from_x_get_pos(indice);
             let mut sum = 0.0;
             for sub_indices in 0..size_ {
-                println!("{} {} {}", row, col, sub_indices);
+                println!("{} {} {} {}", row, col, sub_indices, indice);
                 sum += self.get_value((row, sub_indices)) * self.get_value((sub_indices, col));
             }
             my_vec.push(sum);
