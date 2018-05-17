@@ -155,7 +155,7 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
 
     let mut my_mat =  SquaredMat::new(map_matrices.len() as u32);
 
-    println!("size {}: ", map_matrices.len() as u32);
+    //println!("size {}: ", map_matrices.len() as u32);
 
     for edges in my_graph.raw_edges()
         {
@@ -175,7 +175,7 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
             else{
                 my_mat.add_value((*col, *row), 1.0f32);
             }
-            println!("{}\t{}\n{}\n", row, col, my_mat);
+            //println!("{}\t{}\n{}\n", row, col, my_mat);
         }
 
     my_mat.to_prop();
