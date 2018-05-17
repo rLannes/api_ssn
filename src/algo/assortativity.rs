@@ -119,7 +119,9 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
 
 
     let mut my_mat =  SquaredMat::new(my_graph.node_count() as u32);
-    println!("size {}: ", my_graph.node_count())
+    
+    println!("size {}: ", my_graph.node_count());
+
     for edges in my_graph.raw_edges()
         {
             let source = edges.source();
