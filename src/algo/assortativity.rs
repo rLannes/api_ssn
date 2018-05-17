@@ -32,8 +32,8 @@ impl SquaredMat{
     }
 
     fn from_x_get_pos(&self, value: u32) -> (u32, u32){
-        let col = (10.0 % self.size as f32) as u32;
-        let row = (10.0f32 / self.size as f32).trunc() as u32;
+        let col = (value as f32  % self.size as f32) as u32;
+        let row = (value as f32 / self.size as f32).trunc() as u32;
         (row, col)
     }
 
