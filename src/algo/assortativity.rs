@@ -172,6 +172,9 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
             if row <= col {
                 my_mat.add_value((*row, *col), 1.0f32);
             }
+            else{
+                my_mat.add_value((*col, *row), 1.0f32);
+            }
             println!("{}\t{}\n{}\n", row, col, my_mat);
         }
 
