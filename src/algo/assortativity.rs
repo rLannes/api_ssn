@@ -102,13 +102,13 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
                     let intermediare = degree_product / (2.0 * total_edges);
                     somme2 += intermediare;
                     somme1 += (Aij - intermediare);
-                    //println!("degree1: {}, degree2: {}, degree_product: {}, intermediare: {}, somm1: {} somm2: {}",
+                    println!("degree1: {}, degree2: {}, degree_product: {}, intermediare: {}, somm1: {} somm2: {}",
                     //degree1, degree2, degree_product, intermediare, somme1, somme2);
                     }
             }
         }
     }
-    //println!("somme1: {}, somme2: {}, total_node: {}",somme1, somme2, total_edges);
+    println!("somme1: {}, somme2: {}, total_node: {}",somme1, somme2, total_edges);
     somme1 / ((2.0 * total_edges) - somme2)
 }
 
