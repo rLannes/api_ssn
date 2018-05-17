@@ -104,7 +104,6 @@ impl SquaredMat{
     fn to_prop(&mut self) ->(){
 
         let sum: f32 = self.data.iter().sum();
-        println!("{}", sum);
         for i in 0..self.size{
             self.data[i as usize] /= sum;
         }
@@ -151,9 +150,9 @@ pub fn graph_assorativity_from_hashmap_label<U: fmt::Display, T: Copy>
             if row <= col {
                 my_mat.add_value((*row, *col), 1.0f32);
             }
-            else{
-                my_mat.add_value((*col, *row), 1.0f32);
-            }
+           // else{
+           //     my_mat.add_value((*col, *row), 1.0f32);
+            //}
         }
 
     my_mat.to_prop();
