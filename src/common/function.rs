@@ -187,6 +187,15 @@ pub fn add_edges_full(my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttrFull, pe
 		}
 	}
 
+pub fn remove_self_hit<U, T>(my_graph: &mut petgraph::Graph<U,T>){
+	for node in my_graph.node_indices(){
+		match my_graph.find_edge(node, node){
+			None => (),
+			Some(edges) =>  {my_graph.remove_edge(edges);}
+		}
+	}
+}
+
 /*
 pub fn packingRectangle(vec_rec: &mut Vec<Rectangle>, marges: f32) -> f32 {
 	
