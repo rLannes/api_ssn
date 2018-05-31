@@ -187,7 +187,7 @@ pub fn add_edges_full(my_graph: &mut petgraph::Graph<NodeAttr, EdgesAttrFull, pe
 		}
 	}
 
-pub fn remove_self_hit<U, T>(my_graph: &mut petgraph::Graph<U,T>){
+pub fn remove_self_hit<U, T>(my_graph: &mut petgraph::Graph<U,T, petgraph::Undirected>){
 	for node in my_graph.node_indices(){
 		match my_graph.find_edge(node, node){
 			None => (),
